@@ -1,0 +1,634 @@
+/* ======================== ΧΡΩΜΑΤΑ & ΜΕΤΑΒΛΗΤΕΣ ======================== */
+
+:root {
+  --bg-0: #06080f;      /* κύριο φόντο σελίδας */
+  --bg-1: #0a0e1a;      /* φόντο gradient */
+  --bg-2: #131825;      /* φόντο καρτών */
+  --border: #283044;    /* βασικό περίγραμμα */
+  --border-2: #3a445e;  /* περίγραμμα hover */
+
+  --text: #e7ecf3;      /* κύριο κείμενο */
+  --text-mute: #8593ad; /* δευτερεύον κείμενο */
+  --text-dim: #4d5772;  /* αχνό κείμενο (footer) */
+
+  --primary: #10b981;   /* πράσινο emerald — κουμπιά, θετικά */
+  --primary-hi: #34d399;/* ανοιχτό emerald — bold λέξεις, hover */
+  --cyan: #06b6d4;      /* κυανό — τίτλοι, εικονίδια */
+  --pink: #ec4899;      /* ροζ/magenta — hacker */
+
+  /* Neon glow εφέ για text-shadow & box-shadow */
+  --glow-primary: 0 0 8px rgba(16, 185, 129, .5), 0 0 16px rgba(16, 185, 129, .3);
+  --glow-cyan: 0 0 8px rgba(6, 182, 212, .5), 0 0 16px rgba(6, 182, 212, .3);
+  --glow-pink: 0 0 8px rgba(236, 72, 153, .55), 0 0 16px rgba(236, 72, 153, .3);
+}
+
+/* ======================== ΓΕΝΙΚΑ / RESET ======================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "Space Mono", "JetBrains Mono", ui-monospace, monospace;
+  background: var(--bg-0);
+  color: var(--text);
+  overflow: hidden;
+}
+
+/* ======================== GOOGLE MATERIAL ICONS ======================== */
+
+/* Βασικό στυλ για Material Symbols */
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+/* Μικρό εικονίδιο inline (π.χ. μέσα σε κουμπί ή κείμενο) */
+.material-symbols-outlined.inline-icon {
+  font-size: 18px;
+  margin-right: 6px;
+}
+
+/* Εικονίδιο κανόνα στη λίστα οδηγιών */
+.material-symbols-outlined.rule-icon {
+  font-size: 18px;
+  margin-right: 8px;
+  color: var(--cyan);
+}
+
+/* ======================== ΑΤΜΟΣΦΑΙΡΙΚΟ ΦΟΝΤΟ ======================== */
+
+/* Χρωματικό gradient φόντο πίσω από όλη τη σελίδα */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% -10%, rgba(6, 182, 212, .10), transparent 50%),
+    radial-gradient(ellipse at 100% 100%, rgba(236, 72, 153, .10), transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(16, 185, 129, .05), transparent 60%),
+    linear-gradient(180deg, var(--bg-1) 0%, var(--bg-0) 100%);
+  z-index: -2;
+}
+
+/* Πλέγμα (grid) πάνω στο φόντο */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, .018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, .018) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Scanlines εφέ (λεπτές οριζόντιες γραμμές) */
+.screen::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(0deg,
+      rgba(255, 255, 255, .012) 0,
+      rgba(255, 255, 255, .012) 1px,
+      transparent 1px, transparent 3px);
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Κάθε "οθόνη" καταλαμβάνει πλήρες viewport */
+.screen {
+  width: 100%;
+  height: 100vh;
+}
+
+/* ======================== INTRO ΟΘΟΝΗ ======================== */
+
+/* Κεντράρισμα περιεχομένου intro */
+.intro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: hidden;
+  padding: 24px 16px;
+}
+
+/* Animated χρωματικό φόντο intro */
+.intro-bg {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(236, 72, 153, .15), transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(6, 182, 212, .15), transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(16, 185, 129, .08), transparent 50%);
+  z-index: -1;
+  animation: bgPulse 12s ease-in-out infinite alternate;
+}
+
+/* Animation: "αναπνοή" φόντου */
+@keyframes bgPulse {
+  0% {
+    opacity: .8;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Κεντρικός container intro */
+.intro-content {
+  width: min(960px, 100%);
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  padding: 12px 16px;
+}
+
+/* Ετικέτα πάνω από τον τίτλο ("Serious Game | Εκμάθηση CSS") */
+.intro-tag {
+  display: inline-block;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 4px;
+  color: var(--cyan);
+  border: 1px solid var(--cyan);
+  padding: 6px 14px;
+  border-radius: 4px;
+  margin-bottom: 18px;
+  text-shadow: var(--glow-cyan);
+}
+
+/* ======================== ΤΙΤΛΟΣ ΠΑΙΧΝΙΔΙΟΥ ======================== */
+
+/* "CSS RESCUE" κεντρικός τίτλος */
+.game-title {
+  font-family: "VT323", monospace;
+  font-size: clamp(56px, 11vw, 120px);
+  line-height: 0.9;
+  margin: 0 0 8px 0;
+  letter-spacing: 4px;
+  font-weight: 400;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* "CSS" — κυανό με glow */
+.game-title .t1 {
+  color: var(--cyan);
+  text-shadow: var(--glow-cyan);
+}
+
+/* "_" cursor που αναβοσβήνει */
+.game-title .t2 {
+  color: var(--cyan);
+  text-shadow: var(--glow-cyan);
+  animation: blink 1.1s steps(1) infinite;
+}
+
+/* "RESCUE" — ροζ με glow */
+.game-title .t3 {
+  color: var(--pink);
+  text-shadow: var(--glow-pink);
+}
+
+/* Animation: αναβοσβήσιμο cursor */
+@keyframes blink {
+
+  0%,
+  49% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* CSS3 λογότυπο δίπλα στον τίτλο */
+.game-logo {
+  width: 80px;
+  height: 80px;
+  transform: translateY(2px);
+  filter: drop-shadow(0 0 10px rgba(6, 182, 212, .45));
+}
+
+/* Υπότιτλος ("Σώσε το eShop από τον Hacker") */
+.game-tagline {
+  font-size: 17px;
+  color: var(--text-mute);
+  margin: 0 0 28px 0;
+}
+
+/* ======================== ΙΣΤΟΡΙΑ & ΧΑΡΑΚΤΗΡΕΣ ======================== */
+
+/* Κεντρικό "κουτί" ιστορίας με glassmorphism */
+.intro-story {
+  text-align: left;
+  background: rgba(19, 24, 37, .7);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px 22px;
+  backdrop-filter: blur(8px);
+  margin: 0 auto 24px;
+  max-width: 780px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .4);
+}
+
+/* Grid γραμμή για τις κάρτες χαρακτήρων */
+.char-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 8px;
+  margin-bottom: 24px;
+  justify-items: center;
+}
+
+/* Κάρτα χαρακτήρα (βάση) */
+.char-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 14px;
+  text-align: center;
+  transition: transform .25s, border-color .25s, box-shadow .25s;
+  max-width: 240px;
+  width: 100%;
+}
+
+/* Hover εφέ σε κάρτα */
+.char-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-2);
+}
+
+/* Κάρτα παίκτη — κυανό περίγραμμα */
+.char-card.player {
+  border-color: rgba(6, 182, 212, .5);
+}
+
+.char-card.player:hover {
+  box-shadow: 0 0 24px rgba(6, 182, 212, .25);
+  border-color: var(--cyan);
+}
+
+/* Κάρτα hacker — ροζ περίγραμμα */
+.char-card.hacker {
+  border-color: rgba(236, 72, 153, .4);
+}
+
+.char-card.hacker:hover {
+  box-shadow: 0 0 24px rgba(236, 72, 153, .25);
+  border-color: var(--pink);
+}
+
+/* Emoji avatar χαρακτήρα */
+.char-avatar {
+  font-size: 44px;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+/* Ρόλος χαρακτήρα (π.χ. "FRONT-END DEVELOPER") */
+.char-role {
+  font-size: 11px;
+  color: var(--cyan);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  text-shadow: var(--glow-cyan);
+}
+
+/* Ρόλος hacker — ροζ αντί κυανό */
+.char-card.hacker .char-role {
+  color: var(--pink);
+  text-shadow: var(--glow-pink);
+}
+
+/* Περιγραφή χαρακτήρα */
+.char-desc {
+  font-size: 13px;
+  color: var(--text-mute);
+  line-height: 1.4;
+}
+
+/* ======================== ΚΑΝΟΝΕΣ / ΟΔΗΓΙΕΣ ======================== */
+
+/* Τίτλος "Πώς παίζεται;" */
+.rules h3 {
+  font-family: "VT323", monospace;
+  font-size: 28px;
+  margin: 0 0 12px 0;
+  padding-left: 23px;
+  color: var(--cyan);
+  text-shadow: var(--glow-cyan);
+  letter-spacing: 1px;
+}
+
+/* Λίστα κανόνων */
+.rules ul {
+  margin: 0;
+  padding-left: 19px;
+  list-style: none;
+}
+
+/* Κάθε κανόνας */
+.rules li {
+  padding: 6px 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #d8def0;
+}
+
+/* Bold λέξεις-κλειδιά μέσα στους κανόνες */
+.rules li b {
+  color: var(--primary-hi);
+  padding: 0 2px;
+  margin: 0 4px;
+  display: inline;
+}
+
+/* Ροζ emphasis για λέξεις που σχετίζονται με τον hacker */
+.rules li b.hacker-emphasis {
+  color: var(--pink);
+}
+
+/* ======================== ΚΟΥΤΙ ΣΤΟΧΟΥ ======================== */
+
+/* Πράσινο κουτί "Στόχος:" */
+.goal-box {
+  margin-top: 18px;
+  padding: 14px 18px;
+  background: rgba(16, 185, 129, .07);
+  border: 1px solid rgba(16, 185, 129, .35);
+  border-radius: 8px;
+  font-size: 14px;
+  color: #cfece1;
+}
+
+.goal-box strong {
+  color: var(--primary-hi);
+}
+
+/* ======================== ΚΟΥΜΠΙΑ ======================== */
+
+/* Ενέργειες intro (container κουμπιών) */
+.intro-actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+/* Βασικό κουμπί */
+.btn-primary {
+  background: var(--primary);
+  color: #04211a;
+  border: none;
+  padding: 14px 28px;
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 1.5px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all .2s ease;
+  box-shadow: var(--glow-primary);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+/* Hover εφέ κουμπιού */
+.btn-primary:hover {
+  background: var(--primary-hi);
+  transform: translateY(-2px);
+  box-shadow: 0 0 16px rgba(16, 185, 129, .7), 0 0 32px rgba(16, 185, 129, .4);
+}
+
+/* Active (πάτημα) κουμπιού */
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Μεγάλο κουμπί ("ΞΕΚΙΝΑ ΤΟ ΠΑΙΧΝΙΔΙ") */
+.btn-primary.big {
+  padding: 18px 36px;
+  font-size: 18px;
+}
+
+/* Κουμπί "ΞΕΚΙΝΑ" — οριζόντια διάταξη εικονιδίου + κειμένου */
+#start-btn {
+  flex-direction: row;
+  gap: 10px;
+}
+
+/* ======================== FOOTER ======================== */
+
+.intro-footer {
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 1.5px;
+}
+
+/* ======================== RESPONSIVE ======================== */
+
+/* --- Tablet & κάτω (≤1024px): scroll αντί overflow hidden --- */
+@media (max-width: 1024px) {
+  body {
+    overflow: auto;
+  }
+
+  .intro {
+    overflow-y: auto;
+  }
+
+  .screen {
+    height: auto;
+    min-height: 100vh;
+  }
+}
+
+/* --- Tablet (≤768px) --- */
+@media (max-width: 768px) {
+  .intro {
+    padding: 20px 12px;
+  }
+
+  .intro-content {
+    padding: 8px 8px;
+  }
+
+  /* Τίτλος & λογότυπο */
+  .game-title {
+    font-size: clamp(40px, 9vw, 72px);
+    gap: 6px;
+  }
+
+  .game-logo {
+    width: 54px;
+    height: 54px;
+  }
+
+  .game-tagline {
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+
+  /* Story box */
+  .intro-story {
+    padding: 16px 14px;
+    border-radius: 10px;
+    margin-bottom: 18px;
+  }
+
+  /* Κάρτες χαρακτήρων: stack κάθετα */
+  .char-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .char-card {
+    max-width: 100%;
+  }
+
+  /* Κανόνες */
+  .rules h3 {
+    font-size: 24px;
+    padding-left: 14px;
+  }
+
+  .rules li {
+    font-size: 12px;
+  }
+
+  /* Goal box */
+  .goal-box {
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+
+  /* Κουμπί */
+  .btn-primary.big {
+    padding: 14px 28px;
+    font-size: 16px;
+  }
+}
+
+/* --- Κινητό (≤480px) --- */
+@media (max-width: 480px) {
+  .intro {
+    padding: 16px 8px;
+  }
+
+  .intro-content {
+    padding: 4px 4px;
+  }
+
+  /* Ετικέτα πάνω από τίτλο */
+  .intro-tag {
+    font-size: 10px;
+    letter-spacing: 2px;
+    padding: 5px 10px;
+    margin-bottom: 12px;
+  }
+
+  /* Τίτλος & λογότυπο */
+  .game-title {
+    font-size: clamp(32px, 10vw, 52px);
+    gap: 4px;
+    letter-spacing: 2px;
+  }
+
+  .game-logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .game-tagline {
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+
+  /* Story box */
+  .intro-story {
+    padding: 14px 12px;
+    border-radius: 8px;
+    margin-bottom: 14px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, .3);
+  }
+
+  /* Avatars μικρότερα */
+  .char-avatar {
+    font-size: 34px;
+  }
+
+  .char-role {
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+
+  .char-desc {
+    font-size: 12px;
+  }
+
+  .char-card {
+    padding: 12px 10px;
+  }
+
+  /* Κανόνες */
+  .rules h3 {
+    font-size: 20px;
+    padding-left: 8px;
+    margin-bottom: 8px;
+  }
+
+  .rules ul {
+    padding-left: 8px;
+  }
+
+  .rules li {
+    font-size: 11px;
+    padding: 4px 0;
+  }
+
+  .material-symbols-outlined.rule-icon {
+    font-size: 16px;
+    margin-right: 6px;
+  }
+
+  /* Goal box */
+  .goal-box {
+    padding: 10px 12px;
+    font-size: 12px;
+    margin-top: 12px;
+  }
+
+  /* Κουμπί */
+  .btn-primary.big {
+    padding: 12px 24px;
+    font-size: 14px;
+    width: 100%;
+  }
+
+  .intro-actions {
+    margin-bottom: 16px;
+  }
+
+  /* Footer */
+  .intro-footer {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+}
