@@ -129,12 +129,20 @@ function renderPreview(css) {
   const level = LEVELS[STATE.currentLevel];
   if (!level) return;
   const doc = ui.preview.contentDocument;
+  
+  // 1. Γράφουμε το HTML χωρίς το input του χρήστη (Safe)
   doc.open();
   doc.write(`<!DOCTYPE html><html><head><meta charset="utf-8">
 <style>${level.baseStyles || ""}</style>
-<style id="user-css">${css}</style>
+<style id="user-css"></style>
 </head><body>${level.targetHTML}</body></html>`);
   doc.close();
+
+  // 2. Περνάμε το CSS με ασφάλεια ως textContent (Αποτρέπει το XSS)
+  const userStyleTag = doc.getElementById("user-css");
+  if (userStyleTag) {
+    userStyleTag.textContent = css;
+  }
 }
 
 function getComputed(selector, prop) {
