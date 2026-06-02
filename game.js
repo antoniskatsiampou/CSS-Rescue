@@ -113,7 +113,6 @@ const Sound = (() => {
     notes.forEach((n, i) => setTimeout(() => tone(n.f, n.d || 0.12, n.t || "sine", n.v || 0.15), i * 110));
   };
   return {
-    success:   () => seq([{ f: 523 }, { f: 659 }, { f: 784, d: 0.2 }]),
     error:     () => seq([{ f: 200, t: "sawtooth", d: 0.18, v: 0.2 }, { f: 150, t: "sawtooth", d: 0.22, v: 0.2 }]),
     click:     () => tone(800, 0.04, "square", 0.08),
     hint:      () => tone(880, 0.18, "triangle", 0.12),
@@ -525,7 +524,16 @@ function save() {
 function loadSave() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : null;
+    if (!raw) return null;
+    const data = JSON.parse(raw);
+    if (!data || typeof data !== "object") return null;
+
+    // Validation των untrusted δεδομένων — αν το save είναι πειραγμένο/χαλασμένο
+    // το αγνοούμε αντί να κρασάρει το παιχνίδι (π.χ. currentLevel εκτός ορίων).
+    const lvl = data.currentLevel;
+    if (!Number.isInteger(lvl) || lvl < 0 || lvl >= LEVELS.length) return null;
+
+    return data;
   } catch { return null; }
 }
 
