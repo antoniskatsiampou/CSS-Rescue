@@ -1,4 +1,4 @@
-/* ======================== ΧΡΩΜΑΤΙΚΗ ΠΑΛΛΕΤΑ ======================== */
+/* ------------------------------ ΧΡΩΜΑΤΙΚΗ ΠΑΛΛΕΤΑ -------------------------- */
 
 :root {
   --bg-0: #06080f;      /* κύριο φόντο σελίδας */
@@ -22,7 +22,7 @@
   --glow-pink: 0 0 8px rgba(236, 72, 153, .55), 0 0 16px rgba(236, 72, 153, .3);
 }
 
-/* ======================== ΓΕΝΙΚΑ ========================*/
+/* ------------------------- ΓΕΝΙΚΑ ------------------------------*/
 
 * {
   box-sizing: border-box;
@@ -37,9 +37,72 @@ body {
   background: var(--bg-0);
   color: var(--text);
   overflow: hidden;
+  cursor: none;
 }
 
-/* ======================== GOOGLE MATERIAL ICONS ======================== */
+/* ------------------------- CUSTOM CURSOR ------------------------------ */
+
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  background: var(--cyan);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 8px rgba(6, 182, 212, .7), 0 0 16px rgba(6, 182, 212, .35);
+  transition: width .15s, height .15s, background .15s;
+}
+
+.cursor-dot.clicking {
+  width: 8px;
+  height: 8px;
+  background: var(--primary-hi);
+}
+
+.cursor-trail {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: var(--cyan);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  opacity: 0.5;
+  animation: trailFade .5s ease-out forwards;
+}
+
+@keyframes trailFade {
+  0% {
+    opacity: 0.45;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+}
+
+/* Custom dot cursor everywhere */
+a, button, input, select, [role="button"], .action-btn, .inv-item, .icon-btn, .brand, label, textarea {
+  cursor: none;
+}
+
+/* Show text cursor on the CSS editor for typing */
+.css-editor {
+  cursor: text;
+}
+
+::selection {
+  background: var(--cyan);
+  color: var(--bg-0);
+}
+
+/* ------------------------- GOOGLE MATERIAL ICONS ------------------------------ */
 
 /* Βασικό στυλ για Material Symbols */
 .material-symbols-outlined {
@@ -61,7 +124,7 @@ body {
   color: var(--cyan);
 }
 
-/* ======================== ΦΟΝΤΟ ======================== */
+/* ------------------------- ΦΟΝΤΟ ------------------------------ */
 
 /* Χρωματικό gradient φόντο πίσω από όλη τη σελίδα */
 body::before {
@@ -108,7 +171,7 @@ body::after {
   height: 100vh;
 }
 
-/* ======================== ΑΡΧΙΚΗ ΟΘΟΝΗ ======================== */
+/* ------------------------- ΑΡΧΙΚΗ ΟΘΟΝΗ ------------------------------ */
 
 /* Κεντράρισμα περιεχομένου intro */
 .intro {
@@ -165,7 +228,7 @@ body::after {
   text-shadow: var(--glow-cyan);
 }
 
-/* ======================== ΤΙΤΛΟΣ ΠΑΙΧΝΙΔΙΟΥ ======================== */
+/* ------------------------- ΤΙΤΛΟΣ ΠΑΙΧΝΙΔΙΟΥ ------------------------------ */
 
 /* "CSS RESCUE" κεντρικός τίτλος */
 .game-title {
@@ -228,7 +291,7 @@ body::after {
   margin: 0 0 28px 0;
 }
 
-/* ======================== ΙΣΤΟΡΙΑ & ΧΑΡΑΚΤΗΡΕΣ ======================== */
+/* --------------------------------ΙΣΤΟΡΙΑ & ΧΑΡΑΚΤΗΡΕΣ --------------------------------------- */
 
 /* Κεντρικό κουτί οδηγιών */
 .intro-story {
@@ -320,7 +383,7 @@ body::after {
   line-height: 1.4;
 }
 
-/* ======================== ΚΑΝΟΝΕΣ / ΟΔΗΓΙΕΣ ======================== */
+/* -------------------------------ΚΑΝΟΝΕΣ / ΟΔΗΓΙΕΣ ----------------------------------- */
 
 /* Τίτλος "Πώς παίζεται;" */
 .rules h3 {
@@ -346,6 +409,9 @@ body::after {
   font-size: 13px;
   line-height: 1.5;
   color: #d8def0;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
 }
 
 /* Bold λέξεις-κλειδιά μέσα στους κανόνες */
@@ -361,7 +427,7 @@ body::after {
   color: var(--pink);
 }
 
-/* ======================== CONTAINER ΣΤΟΧΟΥ ======================== */
+/* ------------------------------- CONTAINER ΣΤΟΧΟΥ ----------------------------------- */
 
 /* Πράσινο Container "Στόχος:" */
 .goal-box {
@@ -378,7 +444,7 @@ body::after {
   color: var(--primary-hi);
 }
 
-/* ======================== ΚΟΥΜΠΙΑ ======================== */
+/* ------------------------------- ΚΟΥΜΠΙΑ ----------------------------------- */
 
 /* Ενέργειες (container κουμπιών) */
 .intro-actions {
@@ -400,7 +466,7 @@ body::after {
   font-size: 15px;
   letter-spacing: 1.5px;
   border-radius: 6px;
-  cursor: pointer;
+  cursor: none;
   transition: all .2s ease;
   box-shadow: var(--glow-primary);
   display: inline-flex;
@@ -421,10 +487,12 @@ body::after {
   transform: translateY(0);
 }
 
-/* Μεγάλο κουμπί ("ΞΕΚΙΝΑ ΤΟ ΠΑΙΧΝΙΔΙ") */
+/* Μεγάλο κουμπί ("ΞΕΚΙΝΑ ΤΟ ΠΑΙΧΝΙΔΙ" / "ΝΕΟ ΠΑΙΧΝΙΔΙ") */
 .btn-primary.big {
   padding: 18px 36px;
   font-size: 18px;
+  min-width: 260px;
+  justify-content: center;
 }
 
 /* Κουμπί "ΞΕΚΙΝΑ" — οριζόντια διάταξη εικονιδίου + κειμένου */
@@ -433,7 +501,21 @@ body::after {
   gap: 10px;
 }
 
-/* ======================== FOOTER ======================== */
+/* Κουμπί "ΣΥΝΕΧΕΙΑ" */
+#continue-btn {
+  flex-direction: row;
+  gap: 10px;
+  background: var(--cyan);
+  color: #041f2e;
+  box-shadow: 0 0 12px rgba(6, 182, 212, .4);
+}
+
+#continue-btn:hover {
+  background: #22d3ee;
+  box-shadow: 0 0 16px rgba(6, 182, 212, .7), 0 0 32px rgba(6, 182, 212, .4);
+}
+
+/* ------------------------------- FOOTER ----------------------------------- */
 
 .intro-footer {
   font-size: 11px;
@@ -441,7 +523,7 @@ body::after {
   letter-spacing: 1.5px;
 }
 
-/* ======================== RESPONSIVE ======================== */
+/* ------------------------------- RESPONSIVE ----------------------------------- */
 
 /* --- Tablet & κάτω (≤1024px): scroll  */
 @media (max-width: 1024px) {
@@ -632,3 +714,1245 @@ body::after {
     letter-spacing: 1px;
   }
 } 
+
+/* ------------------------------- ΟΘΟΝΗ ΠΑΙΧΝΙΔΙΟΥ ------------------------------- */
+
+/* ------------------------------- ΒΟΗΘΗΤΙΚΑ ----------------------------------- */
+
+.hidden {
+  display: none !important;
+}
+
+/* Screen reader only — accessible αλλά κρυφό οπτικά */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* ------------------------------- ΟΘΟΝΗ ΠΑΙΧΝΙΔΙΟΥ — LAYOUT ----------------------------------- */
+
+.game {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ------------------------------- TOP BAR ----------------------------------- */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 10px 24px;
+  background: rgba(10, 14, 26, .85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Brand [CSS_RESCUE] */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: "VT323", monospace;
+  font-size: 26px;
+  letter-spacing: 2px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background .2s, transform .15s;
+}
+
+.brand:hover {
+  background: rgba(6, 182, 212, .08);
+  transform: scale(1.03);
+}
+
+.brand-t1 {
+  color: var(--cyan);
+  text-shadow: var(--glow-cyan);
+}
+
+.brand-t2 {
+  color: var(--cyan);
+  text-shadow: var(--glow-cyan);
+}
+
+.brand-t3 {
+  color: var(--pink);
+  text-shadow: var(--glow-pink);
+}
+
+.brand-logo {
+  width: 28px;
+  height: 28px;
+  filter: drop-shadow(0 0 6px rgba(6, 182, 212, .4));
+}
+
+/* ------------------------------- STATS ----------------------------------- */
+
+.stats {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  min-width: 0;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.hacker-stat {
+  flex: 1;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+}
+
+.level-stat {
+  flex-shrink: 0;
+}
+
+/* Mini avatar εικονίδια στο topbar */
+.mini-avatar {
+  font-size: 26px;
+  line-height: 1;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, .15));
+  transition: transform .3s, filter .3s;
+}
+
+/* Hacker avatar animation όταν κερδίζει */
+.mini-avatar.winning {
+  animation: pulse 1s infinite;
+  filter: drop-shadow(0 0 12px rgba(236, 72, 153, .7));
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+/* Stat labels */
+.stat-info {
+  min-width: 0;
+}
+
+.stat-name {
+  font-size: 10px;
+  color: var(--text-mute);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-name .material-symbols-outlined {
+  font-size: 14px;
+}
+
+/* Progress bar — γενικό */
+.stat-bar {
+  height: 10px;
+  background: var(--bg-2);
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.stat-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width .5s ease, background-color .3s;
+  box-shadow: 0 0 8px currentColor;
+}
+
+/* Hacker bar χρώματα ανάλογα πρόοδο */
+.stat-fill.hacker.ok {
+  background: var(--cyan);
+}
+
+.stat-fill.hacker.warn {
+  background: #f97316; /* orange */
+}
+
+.stat-fill.hacker.danger {
+  background: var(--pink);
+  animation: dangerPulse 1.2s infinite;
+}
+
+@keyframes dangerPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .7; }
+}
+
+/* Stat τιμή (ποσοστό) */
+.stat-value {
+  font-family: "VT323", monospace;
+  font-size: 22px;
+  color: var(--text);
+  min-width: 48px;
+  text-align: right;
+}
+
+/* -------------------------- LEVEL DOTS----------------------- */
+
+.level-dots {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.level-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--bg-2);
+  border: 2px solid var(--border-2);
+  transition: all .35s ease;
+  cursor: none;
+  position: relative;
+}
+
+/* Completed levels */
+.level-dot.completed {
+  background: var(--primary);
+  border-color: var(--primary-hi);
+  box-shadow: 0 0 8px rgba(16, 185, 129, .5);
+}
+
+/* Current level */
+.level-dot.current {
+  background: var(--cyan);
+  border-color: var(--cyan);
+  box-shadow: 0 0 10px rgba(6, 182, 212, .6), 0 0 20px rgba(6, 182, 212, .25);
+  animation: dotPulse 2s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(6, 182, 212, .6), 0 0 20px rgba(6, 182, 212, .25); }
+  50% { box-shadow: 0 0 14px rgba(6, 182, 212, .9), 0 0 28px rgba(6, 182, 212, .4); }
+}
+
+/* Score — now hidden, keep for JS compatibility */
+.big-score {
+  font-family: "VT323", monospace;
+  font-size: 28px;
+  color: var(--cyan);
+  letter-spacing: 2px;
+  text-shadow: var(--glow-cyan);
+  line-height: 1;
+}
+
+.big-score.small {
+  font-size: 18px;
+  color: var(--text);
+  text-shadow: none;
+}
+
+/* Combo badge — hidden but kept for JS */
+.combo {
+  font-family: "VT323", monospace;
+  color: #fbbf24; /* yellow */
+  font-size: 16px;
+  margin-left: 4px;
+}
+
+/* Sound toggle */
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* Score badge */
+.score-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 14px 5px 10px;
+  transition: all .3s ease;
+}
+
+.score-badge:hover {
+  border-color: #fbbf24;
+  box-shadow: 0 0 12px rgba(251, 191, 36, .2);
+}
+
+.score-star {
+  font-size: 18px;
+  line-height: 1;
+  filter: drop-shadow(0 0 4px rgba(251, 191, 36, .4));
+}
+
+.score-value {
+  font-family: "VT323", monospace;
+  font-size: 20px;
+  color: #fbbf24;
+  letter-spacing: 1px;
+  text-shadow: 0 0 6px rgba(251, 191, 36, .3);
+  line-height: 1;
+  min-width: 20px;
+}
+
+/* Score pop animation */
+.score-badge.pop {
+  animation: scorePop .4s ease;
+}
+
+@keyframes scorePop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.icon-btn {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px;
+  border-radius: 6px;
+  cursor: none;
+  font-size: 18px;
+  transition: all .2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn:hover {
+  border-color: var(--cyan);
+  background: rgba(6, 182, 212, .1);
+}
+
+/* ------------------------ INVENTORY BAR------------------------------- */
+
+.inventory-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 20px;
+  background: rgba(19, 24, 37, .6);
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.inv-label {
+  color: var(--text-mute);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+}
+
+.inv-item {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: none;
+  font-family: inherit;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all .2s;
+}
+
+.inv-item:hover:not(:disabled) {
+  border-color: var(--primary);
+  box-shadow: 0 0 12px rgba(16, 185, 129, .3);
+}
+
+.inv-item:disabled {
+  opacity: .35;
+  cursor: none;
+}
+
+.inv-count {
+  background: var(--border);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+.inv-divider {
+  color: var(--text-dim);
+}
+
+.inv-info {
+  color: var(--text-mute);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+}
+
+/* -------------------------- MAIN GAME AREA — 3 COLUMNS --------------------------------- */
+
+.game-main {
+  display: grid;
+  grid-template-columns: 300px 1fr 1fr;
+  gap: 12px;
+  padding: 12px 16px 16px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Panel γενικό */
+.panel {
+  background: rgba(19, 24, 37, .85);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* -------------------------- LEFT PANEL — Story + Instructions --------------------------------- */
+
+.left-panel {
+  padding: 16px;
+  overflow-y: auto;
+}
+
+/* Level header */
+.level-header {
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px dashed var(--border-2);
+}
+
+.level-header h2 {
+  font-family: "VT323", monospace;
+  font-size: 24px;
+  line-height: 1.1;
+  margin: 0 0 4px 0;
+  color: var(--primary-hi);
+  text-shadow: 0 0 6px rgba(52, 211, 153, .4);
+}
+
+.subtitle {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+/* Story box */
+.story-box {
+  background: var(--bg-2);
+  border-left: 3px solid var(--cyan);
+  padding: 12px 14px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.story-icon {
+  font-size: 22px;
+  color: var(--cyan);
+  flex-shrink: 0;
+}
+
+.story-box p {
+  margin: 0;
+  font-size: 13px;
+  color: #d8def0;
+  line-height: 1.55;
+}
+
+/* Instructions */
+.instructions-box h3 {
+  font-family: "VT323", monospace;
+  font-size: 18px;
+  margin: 0 0 8px 0;
+  color: var(--primary-hi);
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Οδηγίες */
+.instructions-box ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.instructions-box li {
+  font-size: 12px;
+  line-height: 1.4;
+  color: #d8def0;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  background: rgba(6, 182, 212, .04);
+  border-radius: 4px;
+  padding: 5px 8px;
+  border-left: 2px solid transparent;
+  transition: border-color .2s, background .2s;
+}
+
+.instructions-box li:hover {
+  background: rgba(6, 182, 212, .08);
+  border-left-color: var(--cyan);
+}
+
+.instr-num {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  border-radius: 4px;
+  background: var(--cyan);
+  color: var(--bg-0);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+/* instructions*/
+.instructions-box code,
+.story-box code,
+.feedback code,
+#hint-body code {
+  background: rgba(6, 182, 212, .12);
+  color: var(--cyan);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: "JetBrains Mono", monospace;
+  border: 1px solid rgba(6, 182, 212, .25);
+}
+
+/* Scoring rules (details) */
+.scoring-rules {
+  margin-top: 14px;
+  font-size: 12px;
+  color: var(--text-mute);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0;
+}
+
+.scoring-rules summary {
+  padding: 8px 12px;
+  cursor: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-mute);
+  transition: color .2s;
+}
+
+.scoring-rules summary:hover {
+  color: var(--cyan);
+}
+
+.scoring-rules ul {
+  padding: 0 12px 10px 28px;
+  margin: 0;
+}
+
+.scoring-rules li {
+  padding: 3px 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #d8def0;
+}
+
+/* Tips */
+.tips-box {
+  margin-top: 12px;
+  font-size: 11px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+}
+
+.tips-box small {
+  display: flex;
+  align-items: center;
+}
+
+.tips-box kbd {
+  background: var(--bg-2);
+  border: 1px solid var(--border-2);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-family: "JetBrains Mono", monospace;
+  color: var(--cyan);
+  margin: 0 2px;
+}
+
+/* -------------------------- Κεντρικό panel - editor --------------------------- */
+
+.editor-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Terminal-style header */
+.panel-header {
+  background: var(--bg-2);
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border-bottom: 1px solid var(--border);
+}
+
+.terminal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.terminal-dot.red    { background: #ff5f56; }
+.terminal-dot.yellow { background: #ffbd2e; }
+.terminal-dot.green  { background: #27c93f; }
+
+.panel-title {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  color: var(--text-mute);
+  margin-left: 8px;
+  letter-spacing: .5px;
+  display: flex;
+  align-items: center;
+}
+
+/* LIVE badge */
+.live-badge {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--primary);
+  letter-spacing: 1.5px;
+  animation: livePulse 1.5s infinite;
+}
+
+@keyframes livePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .4; }
+}
+
+/* Textarea editor */
+.css-editor {
+  flex: 1;
+  width: 100%;
+  background: var(--bg-1);
+  color: #d8def0;
+  border: none;
+  padding: 16px;
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  outline: none;
+  resize: none;
+  tab-size: 2;
+  caret-color: var(--cyan);
+}
+
+.css-editor:focus {
+  box-shadow: inset 0 0 0 1px rgba(6, 182, 212, .3);
+}
+
+/* Feedback (output) */
+.feedback {
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  border-top: 1px solid var(--border);
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.feedback.info {
+  background: rgba(6, 182, 212, .08);
+  color: var(--cyan);
+}
+
+.feedback.error {
+  background: rgba(239, 68, 68, .08);
+  color: #fca5a5;
+}
+
+.feedback.success {
+  background: rgba(16, 185, 129, .08);
+  color: var(--primary-hi);
+}
+
+.feedback ul {
+  margin: 6px 0 0 0;
+  padding-left: 20px;
+}
+
+.feedback li {
+  margin: 3px 0;
+}
+
+.feedback small {
+  display: block;
+  margin-top: 6px;
+  color: var(--text-dim);
+}
+
+/* Action buttons */
+.editor-actions {
+  display: flex;
+  gap: 6px;
+  padding: 10px;
+  background: var(--bg-2);
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  background: var(--bg-2);
+  color: var(--text);
+  border: 1px solid var(--border-2);
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: none;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .5px;
+  transition: all .2s;
+  flex: 1;
+  min-width: 80px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.action-btn .material-symbols-outlined {
+  font-size: 16px;
+}
+
+.action-btn:hover {
+  background: var(--border);
+}
+
+/* Variants */
+.action-btn.primary {
+  background: var(--primary);
+  color: #04211a;
+  border-color: var(--primary);
+  box-shadow: var(--glow-primary);
+}
+
+.action-btn.primary:hover {
+  background: var(--primary-hi);
+}
+
+.action-btn.secondary {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
+.action-btn.secondary:hover {
+  background: rgba(6, 182, 212, .1);
+}
+
+.action-btn.tertiary {
+  color: var(--text-mute);
+}
+
+.action-btn.danger {
+  border-color: #f97316;
+  color: #f97316;
+}
+
+.action-btn.danger:hover {
+  background: rgba(249, 115, 22, .1);
+}
+
+.action-btn:disabled {
+  opacity: .35;
+  cursor: none;
+}
+
+/* ---------------------------- Δεξί panel — Preview --------------------------------- */
+
+.preview-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.preview-frame {
+  flex: 1;
+  width: 100%;
+  border: none;
+  background: white;
+  border-radius: 0 0 9px 9px;
+}
+
+/* ---------------------------------- NATIVE DIALOGS ------------------------------------ */
+
+.game-dialog {
+  background: transparent;
+  border: none;
+  padding: 0;
+  max-width: min(520px, 90vw);
+  width: 100%;
+  overflow: visible;
+}
+
+/* Backdrop — σκοτεινό φόντο πίσω από το dialog */
+.game-dialog::backdrop {
+  background: rgba(6, 8, 15, .80);
+  backdrop-filter: blur(8px);
+  cursor: none;
+}
+
+/* Dialog body */
+.dialog-body {
+  cursor: none;
+  background: var(--bg-2);
+  border: 1px solid var(--border-2);
+  border-radius: 14px;
+  padding: 32px;
+  text-align: center;
+  animation: slideUp .3s cubic-bezier(.16, .84, .45, 1);
+  box-shadow: 0 32px 80px rgba(0, 0, 0, .6);
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(16px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+/* Dialog headings */
+.dialog-body h2 {
+  font-family: "VT323", monospace;
+  font-size: 32px;
+  margin: 0 0 16px 0;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.dialog-body p {
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.dialog-body ul {
+  text-align: left;
+  line-height: 1.8;
+}
+
+.dialog-body li {
+  font-size: 13px;
+}
+
+.dialog-body b {
+  color: var(--primary-hi);
+}
+
+/* Celebrate variant (level complete) */
+.dialog-body.celebrate {
+  border-color: var(--primary);
+  box-shadow: 0 0 60px rgba(16, 185, 129, .25);
+}
+
+.dialog-body.celebrate h2 {
+  color: var(--primary-hi);
+  text-shadow: var(--glow-primary);
+}
+
+/* Danger variant (game over) */
+.dialog-body.danger {
+  border-color: #ef4444;
+  box-shadow: 0 0 60px rgba(239, 68, 68, .25);
+}
+
+.dialog-body.danger h2 {
+  color: #fca5a5;
+}
+
+/* Victory variant */
+.dialog-body.victory {
+  border-color: #fbbf24;
+  box-shadow: 0 0 80px rgba(251, 191, 36, .3);
+}
+
+.dialog-body.victory h2 {
+  color: #fbbf24;
+  text-shadow: 0 0 12px rgba(251, 191, 36, .6);
+}
+
+/* Reward box μέσα σε level-complete */
+.reward-box {
+  background: rgba(16, 185, 129, .08);
+  border: 1px solid rgba(16, 185, 129, .3);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 16px 0;
+  font-size: 14px;
+}
+
+.reward-box div {
+  margin: 4px 0;
+}
+
+/* "Επόμενο: ..." teaser */
+.next-tease {
+  font-size: 13px;
+  color: var(--cyan);
+  margin: 14px 0 18px 0;
+}
+
+/* Final stats (victory) */
+.final-stats {
+  margin: 20px 0;
+}
+
+.rating {
+  font-size: 48px;
+  color: #fbbf24;
+  text-shadow: 0 0 20px rgba(251, 191, 36, .6);
+  margin-bottom: 8px;
+  letter-spacing: 4px;
+}
+
+.grad-msg {
+  background: rgba(6, 182, 212, .08);
+  border: 1px solid rgba(6, 182, 212, .25);
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-top: 18px;
+}
+
+/* Hint dialog body */
+#hint-body h3 {
+  font-family: "VT323", monospace;
+  font-size: 28px;
+  margin: 0 0 12px 0;
+  color: var(--cyan);
+  text-shadow: var(--glow-cyan);
+}
+
+#hint-body p {
+  text-align: left;
+  background: var(--bg-1);
+  border-left: 3px solid var(--cyan);
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 14px;
+  font-size: 14px;
+}
+
+#hint-body small {
+  color: var(--text-dim);
+  display: block;
+  margin-bottom: 16px;
+}
+
+/* Override browser default μαύρο χρώμα στα dialogs */
+.game-dialog {
+  color: var(--text);   
+}
+
+/* Μεγαλύτερα εικονίδια στους τίτλους dialogs */
+.dialog-body h2 .material-symbols-outlined {
+  font-size: 30px;
+}
+
+/* Κουμπιά μέσα σε dialog  */
+.dialog-body .btn-primary {
+  flex-direction: row;
+  gap: 8px;
+}
+
+/* ------------------------------- CONFIRM DIALOG ----------------------------------- */
+
+.dialog-body.confirm {
+  border-color: var(--cyan);
+  box-shadow: 0 0 60px rgba(6, 182, 212, .2);
+}
+
+.dialog-body.confirm h2 {
+  color: var(--cyan);
+  text-shadow: var(--glow-cyan);
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.confirm-actions .btn-primary {
+  min-width: 100px;
+}
+
+.btn-cancel {
+  background: transparent;
+  color: var(--text-mute);
+  border: 1px solid var(--border-2);
+  padding: 14px 28px;
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 1px;
+  border-radius: 6px;
+  cursor: none;
+  transition: all .2s ease;
+  min-width: 100px;
+}
+
+.btn-cancel:hover {
+  border-color: var(--text-mute);
+  color: var(--text);
+  background: rgba(255, 255, 255, .04);
+}
+
+/* ----------------------------- GLITCH EFFECT (σε λάθος) ------------------------------ */
+
+body.glitch .game-main {
+  animation: glitchAnim .35s linear;
+}
+
+@keyframes glitchAnim {
+  0%   { transform: translate(0, 0);      filter: hue-rotate(0deg); }
+  20%  { transform: translate(-3px, 2px);  filter: hue-rotate(20deg); }
+  40%  { transform: translate(3px, -2px);  filter: hue-rotate(-15deg); }
+  60%  { transform: translate(-2px, 1px);  filter: hue-rotate(8deg); }
+  80%  { transform: translate(1px, -1px);  filter: hue-rotate(-4deg); }
+  100% { transform: translate(0, 0);      filter: hue-rotate(0deg); }
+}
+
+/* --------------------------- CUSTOM SCROLLBAR ------------------------------- */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-2);
+  border-radius: 4px;
+  border: 2px solid var(--bg-1);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cyan);
+}
+
+/*--------------------------------- RESPONSIVE — GAME SCREEN --------------------------------- */
+
+/* Tablet - απλοποίηση stats */
+@media (max-width: 1200px) {
+  .stats {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .stat.level-stat {
+    display: none;
+  }
+}
+
+/* Tablet: 1-column layout */
+@media (max-width: 1024px) {
+  .game {
+    height: auto;
+    min-height: 100vh;
+    grid-template-rows: auto auto auto;
+  }
+
+  .game-main {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    overflow-y: auto;
+  }
+
+  .panel {
+    max-height: none;
+  }
+
+  .css-editor {
+    min-height: 260px;
+  }
+
+  .preview-frame {
+    min-height: 320px;
+  }
+
+  body,
+  html {
+    overflow: auto;
+  }
+
+  .screen {
+    height: auto;
+    min-height: 100vh;
+  }
+}
+
+/* Mobile: topbar stack */
+@media (max-width: 760px) {
+  .topbar {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 12px;
+  }
+
+  .brand {
+    text-align: center;
+  }
+
+  .stats {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .hacker-stat {
+    width: 100%;
+  }
+
+  .level-dots {
+    gap: 8px;
+  }
+
+  .level-dot {
+    width: 14px;
+    height: 14px;
+  }
+
+  .inventory-bar {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .game-main {
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .editor-actions {
+    gap: 4px;
+    padding: 8px;
+  }
+
+  .action-btn {
+    font-size: 11px;
+    padding: 7px 8px;
+  }
+
+  
+}
+
+.action-btn {
+    font-size: 11px;
+    padding: 7px 8px;
+  }
+                                    
+
+/*--------------------------------- FIXES & ADDITIONS --------------------------------- */
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-logo {
+  width: 32px;
+  height: 32px;
+  filter: drop-shadow(0 0 6px rgba(6, 182, 212, .4));
+}
+
+.game-dialog {
+  color: var(--text);
+}
+
+.dialog-body h2 .material-symbols-outlined {
+  font-size: 30px;
+}
+
+.dialog-body .btn-primary {
+  flex-direction: row;
+  gap: 8px;
+}
+
+.editor-readonly {
+  background: rgba(6, 182, 212, .06);
+  color: var(--text-dim);
+  border-bottom: 1px dashed var(--border);
+  padding: 12px 16px;
+  margin: 0;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  user-select: none;
+  overflow-x: auto;
+}
+
+.instructions-box li {
+  background: rgba(6, 182, 212, .04);
+  border-radius: 6px;
+  padding: 10px 12px 10px 8px;
+  margin-bottom: 4px;
+  border-bottom: none;
+  border-left: 2px solid transparent;
+  transition: border-color .2s, background .2s;
+}
+
+.instructions-box li:hover {
+  background: rgba(6, 182, 212, .08);
+  border-left-color: var(--cyan);
+}
+
+.instr-text {
+  flex: 1;
+  min-width: 0;
+}
