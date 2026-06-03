@@ -15,11 +15,13 @@ const STATE = {
   startTime: null,
   totalHintsUsed: 0,
   totalMistakes: 0,
+  totalSolutionsViewed: 0,          // πόσες φορές πατήθηκε «Δες λύση» (για τα αστέρια)
   inventory: {
     hint: 3,
     antivirus: 1,
   },
   attemptsThisLevel: 0,
+  mistakesThisLevel: 0,             // λάθος προσπάθειες σε αυτό το επίπεδο (για πόντους)
   hintsUsedThisLevel: 0,
   solutionViewedThisLevel: false,   // σημαία για τη λύση
   startedLevelAt: null,
@@ -28,6 +30,11 @@ const STATE = {
 };
 
 const STORAGE_KEY = "css-rescue-v2";
+
+/* ---------- SECURITY HELPERS ---------- */
+// Sanitize a value that will be embedded in innerHTML.
+// Numbers are cast to integer; anything non-numeric falls back to 0.
+const safeNum = (v) => Number.isFinite(Number(v)) ? Math.floor(Number(v)) : 0;
 
 /* ---------- DOM REFS ---------- */
 const $ = (sel) => document.querySelector(sel);
@@ -234,6 +241,7 @@ function clearFeedback() {
 function loadLevel(index) {
   STATE.currentLevel = index;
   STATE.attemptsThisLevel = 0;
+  STATE.mistakesThisLevel = 0;
   STATE.hintsUsedThisLevel = 0;
   STATE.solutionViewedThisLevel = false;
   STATE.startedLevelAt = Date.now();
@@ -280,30 +288,42 @@ function onSubmit() {
       Sound.levelUp();
       const level = LEVELS[STATE.currentLevel];
 
+      /* --- ΠΟΝΤΟΙ: Βάση 100 − ποινές + combo --- */
+      const BASE = 100, MISTAKE_COST = 15, HINT_COST = 20, FLOOR = 10;
       let earned = 0;
-      let bonus = "";
+      const breakdown = [];
 
       if (STATE.solutionViewedThisLevel) {
-        // Είδε τη λύση , 0 πόντοι
         earned = 0;
-        bonus = " (Είδες τη λύση — 0 πόντοι)";
         STATE.combo = 0;
-      } else if (STATE.attemptsThisLevel === 1 && STATE.hintsUsedThisLevel === 0) {
-        earned = 150;
-        bonus = " (Τέλεια πρώτη! +50 bonus)";
-        STATE.combo++;
-      } else if (STATE.hintsUsedThisLevel === 0) {
-        earned = 125;
-        bonus = " (Χωρίς hints! +25 bonus)";
-        STATE.combo++;
+        breakdown.push("Είδες τη λύση → <b>0 πόντοι</b>");
       } else {
-        earned = 100;
-        STATE.combo = 0;
+        earned = BASE;
+        breakdown.push(`Βάση: <b>+${BASE}</b>`);
+
+        if (STATE.mistakesThisLevel > 0) {
+          const d = STATE.mistakesThisLevel * MISTAKE_COST;
+          earned -= d;
+          breakdown.push(`${STATE.mistakesThisLevel} λάθη: <b>−${d}</b>`);
+        }
+        if (STATE.hintsUsedThisLevel > 0) {
+          const d = STATE.hintsUsedThisLevel * HINT_COST;
+          earned -= d;
+          breakdown.push(`${STATE.hintsUsedThisLevel} βοήθειες: <b>−${d}</b>`);
+        }
+        if (earned < FLOOR) earned = FLOOR;
+
+        // Combo ΜΟΝΟ σε καθαρή λύση (χωρίς λάθη & χωρίς βοήθειες)
+        if (STATE.mistakesThisLevel === 0 && STATE.hintsUsedThisLevel === 0) {
+          STATE.combo++;
+          const comboBonus = STATE.combo * 20;
+          earned += comboBonus;
+          breakdown.push(`🔥 Καθαρή λύση! Combo x${STATE.combo}: <b>+${comboBonus}</b>`);
+        } else {
+          STATE.combo = 0;
+        }
       }
 
-      // Combo multiplier
-      const multiplier = 1 + STATE.combo * 0.1;
-      earned = Math.round(earned * multiplier);
       STATE.score += earned;
 
       // Rewards
@@ -314,7 +334,8 @@ function onSubmit() {
       const rewardText = Object.entries(rewards)
         .map(([k, v]) => {
           const icons = { hint: "💡", antivirus: "🛡️" };
-          return `${icons[k] || ""} +${v} ${k}`;
+          const labels = { hint: v === 1 ? "βοήθεια" : "βοήθειες", antivirus: "antivirus" };
+          return `${icons[k] || ""} +${v} ${labels[k] || k}`;
         }).join(", ");
 
       // Level complete dialog
@@ -325,9 +346,9 @@ function onSubmit() {
       ui.levelCompleteBody.innerHTML = `
         <p><b>Έσωσες αυτό το κομμάτι του eShop!</b></p>
         <div class="reward-box">
-          <div>+${earned} πόντοι${bonus}</div>
-          ${rewardText ? `<div>Ανταμοιβή: ${rewardText}</div>` : ""}
-          ${STATE.combo > 0 ? `<div>🔥 Combo x${STATE.combo + 1}!</div>` : ""}
+          <div class="reward-total">+${earned} πόντοι</div>
+          <ul class="reward-breakdown">${breakdown.map(b => `<li>${b}</li>`).join("")}</ul>
+          ${rewardText ? `<div class="reward-gain">Ανταμοιβή: ${rewardText}</div>` : ""}
         </div>
         ${STATE.currentLevel + 1 < LEVELS.length
           ? `<p class="next-tease">Επόμενο: <i>${LEVELS[STATE.currentLevel + 1].title}</i></p>`
@@ -348,6 +369,7 @@ function onSubmit() {
       const penalty = LEVELS[STATE.currentLevel].penalty || 8;
       STATE.hackerProgress = Math.min(100, STATE.hackerProgress + penalty);
       STATE.totalMistakes++;
+      STATE.mistakesThisLevel++;
       STATE.combo = 0;
 
       // Glitch
@@ -357,7 +379,7 @@ function onSubmit() {
       showFeedback(`
         <b>❌ Ακόμη δεν είναι σωστό!</b>
         <ul>${failures.map(f => `<li>${f}</li>`).join("")}</ul>
-        <small>Δοκίμασε ξανά. Χρησιμοποίησε 💡 hint αν κολλήσεις.</small>
+        <small>Δοκίμασε ξανά. Χρησιμοποίησε 💡 βοήθεια αν κολλήσεις.</small>
       `, "error");
 
       updateStats();
@@ -380,24 +402,38 @@ function onHint() {
   STATE.hintsUsedThisLevel++;
   STATE.totalHintsUsed++;
 
+  // Η βοήθεια δίνει λίγο έδαφος στον hacker (όσο ο μισός penalty του επιπέδου)
+  const hackerCost = Math.round((level.penalty || 8) / 2);
+  STATE.hackerProgress = Math.min(100, STATE.hackerProgress + hackerCost);
+
   ui.hintBody.innerHTML = `
-    <h3>Hint #${STATE.hintsUsedThisLevel}</h3>
+    <h3>Βοήθεια #${STATE.hintsUsedThisLevel}</h3>
     <p>${hint}</p>
-    <small>Μειώθηκε το hint inventory κατά 1.</small>`;
+    <small>Κόστος: −20 πόντοι στη λύση και +${hackerCost}% στον hacker.</small>`;
   ui.hintDialog.showModal();
   updateStats();
   save();
+
+  if (STATE.hackerProgress >= 100) {
+    ui.hintDialog.close();
+    gameOver();
+  }
 }
 
 /* ---------- CUSTOM CONFIRM (replaces native confirm) ---------- */
-function gameConfirm(message, heading = "Επιβεβαίωση") {
+function gameConfirm(message, heading = "Επιβεβαίωση", icon = "help_outline", theme = "theme-cyan") {
   return new Promise((resolve) => {
     const dialog = $id("confirm-dialog");
+    const body = dialog.querySelector(".dialog-body");
     const msgEl = $id("confirm-dialog-message");
     const headingEl = $id("confirm-dialog-heading");
+    const iconEl = $id("confirm-dialog-icon");
     const yesBtn = $id("confirm-yes-btn");
     const noBtn = $id("confirm-no-btn");
 
+    body.classList.remove("theme-cyan", "theme-danger", "theme-neutral");
+    body.classList.add(theme);
+    iconEl.textContent = icon;
     headingEl.textContent = heading;
     msgEl.textContent = message;
     dialog.showModal();
@@ -416,7 +452,7 @@ function gameConfirm(message, heading = "Επιβεβαίωση") {
 }
 
 async function onReset() {
-  const ok = await gameConfirm("Θα χάσεις τις αλλαγές σου σε αυτό το επίπεδο.", "Reset");
+  const ok = await gameConfirm("Θα χάσεις τις αλλαγές σου σε αυτό το επίπεδο.", "Reset", "restart_alt", "theme-neutral");
   if (!ok) return;
   Sound.click();
   const level = LEVELS[STATE.currentLevel];
@@ -426,19 +462,19 @@ async function onReset() {
 }
 
 async function onSolution() {
-  const ok = await gameConfirm("Θα δεις τη λύση. Δεν θα πάρεις πόντους για αυτό το επίπεδο και το combo μηδενίζεται.", "Δες Λύση");
+  const ok = await gameConfirm("Θα δεις τη λύση. Δεν θα πάρεις πόντους για αυτό το επίπεδο και χάνεις ένα αστέρι στο τέλος.", "Δες Λύση", "visibility", "theme-danger");
   if (!ok) return;
   Sound.click();
   const level = LEVELS[STATE.currentLevel];
   ui.editor.value = level.solution;
   renderPreview(level.solution);
 
+  if (!STATE.solutionViewedThisLevel) STATE.totalSolutionsViewed++;
   STATE.solutionViewedThisLevel = true;
   STATE.combo = 0;
-  STATE.hackerProgress = Math.min(100, STATE.hackerProgress + 4);
 
   updateStats();
-  showFeedback("👁️ Είδες τη λύση. Κατάλαβέ την και πάτησε «Έλεγχος» για να συνεχίσεις.", "info");
+  showFeedback("👁️ Είδες τη λύση. Κατάλαβέ την και πάτησε «Έλεγχος» για να συνεχίσεις. (0 πόντοι, −1 αστέρι)", "info");
   save();
 }
 
@@ -446,10 +482,10 @@ function useAntivirus() {
   if (STATE.inventory.antivirus <= 0 || STATE.hackerProgress <= 0) return;
   Sound.antivirus();
   STATE.inventory.antivirus--;
-  STATE.hackerProgress = Math.max(0, STATE.hackerProgress - 30);
+  STATE.hackerProgress = Math.max(0, STATE.hackerProgress - 25);
   updateStats();
   save();
-  showFeedback("🛡️ Antivirus! -30% στον hacker", "info");
+  showFeedback("🛡️ Antivirus! −25% στον hacker", "info");
   setTimeout(clearFeedback, 2500);
 }
 
@@ -468,18 +504,33 @@ function gameOver() {
 
   ui.gameOverTitle.innerHTML = `
     <span class="material-symbols-outlined inline-icon">dangerous</span>
-    Ο Hacker νίκησε…`;
+    Ο Hacker νίκησε`;
 
   ui.gameOverBody.innerHTML = `
     <p>Ο Hacker κατέστρεψε τόσο κώδικα που το PixelMart κατέρρευσε.</p>
     <ul>
-      <li>Σκορ: <b>${STATE.score}</b></li>
-      <li>Έφτασες: <b>Επίπεδο ${STATE.currentLevel + 1} / ${LEVELS.length}</b></li>
-      <li>Λάθη: <b>${STATE.totalMistakes}</b></li>
+      <li>Σκορ: <b>${safeNum(STATE.score)}</b></li>
+      <li>Έφτασες: <b>Επίπεδο ${safeNum(STATE.currentLevel) + 1} / ${LEVELS.length}</b></li>
+      <li>Λάθη: <b>${safeNum(STATE.totalMistakes)}</b></li>
     </ul>
     <p><i>Tip: Χρησιμοποίησε 🛡️ antivirus όταν ο hacker κερδίζει έδαφος!</i></p>`;
 
   ui.gameOverDialog.showModal();
+}
+
+/* Αστέρια: λάθη + βοήθειες ορίζουν την επίδοση, οι λύσεις βάζουν ταβάνι.
+   3★ = καμία λύση & ≤3 (λάθη+βοήθειες). Κάθε «Δες λύση» κόβει αστέρι. */
+function computeStars() {
+  const sols = STATE.totalSolutionsViewed || 0;
+  const combined = (STATE.totalMistakes || 0) + (STATE.totalHintsUsed || 0);
+
+  const maxBySolutions = sols === 0 ? 3 : (sols === 1 ? 2 : 1);
+  let perf;
+  if (combined <= 3) perf = 3;
+  else if (combined <= 8) perf = 2;
+  else perf = 1;
+
+  return Math.max(1, Math.min(maxBySolutions, perf));
 }
 
 function victory() {
@@ -489,23 +540,23 @@ function victory() {
   const min = Math.floor(totalTime / 60);
   const sec = totalTime % 60;
 
-  let rating = "★";
-  if (STATE.totalMistakes <= 3 && STATE.totalHintsUsed <= 4) rating = "★★★";
-  else if (STATE.totalMistakes <= 7 && STATE.totalHintsUsed <= 8) rating = "★★";
+  const stars = computeStars();
+  const rating = `${"★".repeat(stars)}<span class="rating-empty">${"☆".repeat(3 - stars)}</span>`;
 
   ui.victoryBody.innerHTML = `
     <p>Ο Hacker νικήθηκε.</p>
     <div class="final-stats">
       <div class="rating">${rating}</div>
       <ul>
-        <li>Τελικό σκορ: <b>${STATE.score}</b></li>
-        <li>Χρόνος: <b>${min}:${sec.toString().padStart(2, "0")}</b></li>
-        <li>Λάθη: <b>${STATE.totalMistakes}</b></li>
-        <li>Hints: <b>${STATE.totalHintsUsed}</b></li>
-        <li>Hacker progress: <b>${Math.round(STATE.hackerProgress)}%</b></li>
+        <li>Τελικό σκορ: <b>${safeNum(STATE.score)}</b></li>
+        <li>Χρόνος: <b>${safeNum(min)}:${safeNum(sec).toString().padStart(2, "0")}</b></li>
+        <li>Λάθη: <b>${safeNum(STATE.totalMistakes)}</b></li>
+        <li>Βοήθειες: <b>${safeNum(STATE.totalHintsUsed)}</b></li>
+        <li>Λύσεις που είδες: <b>${safeNum(STATE.totalSolutionsViewed)}</b></li>
+        <li>Hacker progress: <b>${safeNum(Math.round(STATE.hackerProgress))}%</b></li>
       </ul>
     </div>
-    <p class="grad-msg">Έμαθες: <b>χρώματα, padding, borders, flexbox, navigation, grid, positioning</b> — βασικά εργαλεία CSS! 🚀</p>`;
+    <p class="grad-msg">Έμαθες τις βασικές εντολές CSS: <b>χρώματα, padding, borders, flexbox, navigation, grid, positioning</b> </p>`;
 
   ui.victoryDialog.showModal();
   localStorage.removeItem(STORAGE_KEY);
@@ -543,9 +594,34 @@ function start(fromSave = null) {
   ui.gameScreen.classList.remove("hidden");
 
   if (fromSave) {
-    Object.assign(STATE, fromSave);
+    // Explicit whitelist — only known, typed fields are restored.
+    // Prevents prototype pollution and unexpected key injection from
+    // a tampered localStorage save.
+    STATE.currentLevel         = safeNum(fromSave.currentLevel);
+    STATE.hackerProgress       = Math.min(100, Math.max(0, safeNum(fromSave.hackerProgress)));
+    STATE.score                = Math.max(0, safeNum(fromSave.score));
+    STATE.combo                = Math.max(0, safeNum(fromSave.combo));
+    STATE.totalHintsUsed       = Math.max(0, safeNum(fromSave.totalHintsUsed));
+    STATE.totalMistakes        = Math.max(0, safeNum(fromSave.totalMistakes));
+    STATE.totalSolutionsViewed = Math.max(0, safeNum(fromSave.totalSolutionsViewed));
+    STATE.mistakesThisLevel    = Math.max(0, safeNum(fromSave.mistakesThisLevel));
+    STATE.hintsUsedThisLevel   = Math.max(0, safeNum(fromSave.hintsUsedThisLevel));
+    STATE.attemptsThisLevel    = Math.max(0, safeNum(fromSave.attemptsThisLevel));
+    STATE.solutionViewedThisLevel = !!fromSave.solutionViewedThisLevel;
+    STATE.finished             = !!fromSave.finished;
+    STATE.sound                = fromSave.sound !== false; // default true
+    STATE.startTime            = Number.isFinite(Number(fromSave.startTime)) ? Number(fromSave.startTime) : Date.now();
+    STATE.startedLevelAt       = Number.isFinite(Number(fromSave.startedLevelAt)) ? Number(fromSave.startedLevelAt) : Date.now();
+    // Inventory: only recognized keys, clamped to [0, 99]
+    const inv = fromSave.inventory && typeof fromSave.inventory === "object" ? fromSave.inventory : {};
+    STATE.inventory = {
+      hint:      Math.min(99, Math.max(0, safeNum(inv.hint))),
+      antivirus: Math.min(99, Math.max(0, safeNum(inv.antivirus))),
+    };
+
     loadLevel(STATE.currentLevel);
-    if (fromSave.editorContent) {
+    if (fromSave.editorContent && typeof fromSave.editorContent === "string") {
+      // editorContent goes through textContent in renderPreview — XSS-safe.
       ui.editor.value = fromSave.editorContent;
       renderPreview(fromSave.editorContent);
     }
@@ -557,7 +633,9 @@ function start(fromSave = null) {
       combo: 0,
       totalHintsUsed: 0,
       totalMistakes: 0,
+      totalSolutionsViewed: 0,
       inventory: { hint: 3, antivirus: 1 },
+      mistakesThisLevel: 0,
       solutionViewedThisLevel: false,
       finished: false,
       startTime: Date.now(),
@@ -621,6 +699,9 @@ function init() {
   const continueBtn = $id("continue-btn");
   if (saved && !saved.finished) {
     continueBtn.classList.remove("hidden");
+    // Υπάρχει πρόοδος: το πράσινο κουμπί ξεκινά απ' την αρχή → «ΕΠΑΝΕΚΚΙΝΗΣΗ»
+    const startLabel = ui.startBtn.querySelector(".start-btn-label");
+    if (startLabel) startLabel.textContent = "ΕΠΑΝΕΚΚΙΝΗΣΗ";
     continueBtn.addEventListener("click", () => {
       start(saved);
     });

@@ -84,20 +84,20 @@ const LEVELS = [
     readonlyHint: `/* Φτιάξε όμορφο κουμπί!
    - Πράσινο φόντο
    - Λευκό κείμενο
-   - Καθόλου border
-   - Στρογγυλεμένες γωνίες (≥ 6px)
-   - Padding 12px 24px
-   - Cursor pointer */`,
+   - Χωρίς border
+   - Στρογγυλεμένες γωνίες
+   - Άνετο padding
+   - Δείκτης «χεράκι» στο hover */`,
     starterCSS: `.btn {
-  
+
 }`,
     instructions: [
-      "Πράσινο <code>background-color</code>",
-      "Λευκό <code>color</code>",
-      "Αφαίρεση <code>border</code> → <code>border: none</code>",
-      "Στρογγυλεμένες γωνίες <code>border-radius</code> ≥ 6px",
-      "Padding: <code>12px 24px</code>",
-      "Cursor: <code>pointer</code>",
+      "Δώσε στο <code>.btn</code> <b>πράσινο</b> φόντο",
+      "Κάνε το <b>κείμενο λευκό</b>",
+      "<b>Αφαίρεσε</b> το border του κουμπιού",
+      "Κάνε τις <b>γωνίες στρογγυλεμένες</b>",
+      "Πρόσθεσε <b>padding</b> για να αναπνέει το κείμενο",
+      "Κάνε τον <b>δείκτη να γίνεται χεράκι</b> όταν περνάς πάνω από το κουμπί",
     ],
     hints: [
       "💡 <code>border: none;</code> αφαιρεί border",
@@ -121,7 +121,7 @@ const LEVELS = [
   padding: 12px 24px;
   cursor: pointer;
 }`,
-    reward: { antivirus: 1 },
+    reward: {},
   },
 
   /* -------- LEVEL 3 — FLEXBOX -------- */
@@ -142,14 +142,14 @@ const LEVELS = [
       .card { background: white; padding: 16px; border-radius: 8px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,.08); font-size: 28px; flex: 1; }
       .card b { font-size: 16px; color: #2563eb; }`,
     readonlyHint: `/* Βάλε τις κάρτες σε μία γραμμή!
-   - display: flex
-   - gap: 16px */`,
+   - Όλες δίπλα-δίπλα (flexbox)
+   - Με κενό ανάμεσά τους */`,
     starterCSS: `.products {
-  
+
 }`,
     instructions: [
-      "Κάνε το <code>.products</code> <b>flexbox</b>",
-      "Δώσε <b>gap τουλάχιστον 12px</b>",
+      "Βάλε τις κάρτες <b>δίπλα-δίπλα σε μία γραμμή</b> (flexbox)",
+      "Άφησε <b>κενό ανάμεσα στις κάρτες</b>",
     ],
     hints: [
       "💡 <code>display: flex;</code> τοποθετεί τα παιδιά σε γραμμή",
@@ -186,18 +186,19 @@ const LEVELS = [
       body { font-family: system-ui, sans-serif; margin: 0; padding: 0; background: #1e293b; }
       .nav { background: #0f172a; padding: 16px 24px; }`,
     readonlyHint: `/* Φτιάξε οριζόντιο menu!
-   .nav-list → flex, no bullets, padding/margin 0, gap 24px
-   .nav-link → λευκό, χωρίς υπογράμμιση */`,
+   .nav-list → οριζόντιο, χωρίς κουκκίδες, χωρίς περιθώρια, με κενό
+   .nav-link → λευκά links, χωρίς υπογράμμιση */`,
     starterCSS: `.nav-list {
-  
+
 }
 
 .nav-link {
-  
+
 }`,
     instructions: [
-      "<code>.nav-list</code>: flex, <code>list-style: none</code>, gap ≥ 16px, padding/margin 0",
-      "<code>.nav-link</code>: λευκό, <code>text-decoration: none</code>",
+      "<code>.nav-list</code>: βάλε τα στοιχεία σε <b>οριζόντια σειρά</b>, με <b>κενό</b> ανάμεσα",
+      "Αφαίρεσε τις <b>κουκκίδες</b> και τα προεπιλεγμένα <b>περιθώρια</b> της λίστας",
+      "<code>.nav-link</code>: κάνε τα links <b>λευκά</b>, <b>χωρίς υπογράμμιση</b>",
     ],
     hints: [
       "💡 <code>list-style: none;</code> αφαιρεί κουκκίδες",
@@ -248,16 +249,16 @@ const LEVELS = [
       body { font-family: system-ui, sans-serif; margin: 0; padding: 16px; background: #f3f4f6; }
       .product { background: white; padding: 24px; border-radius: 12px; text-align: center; font-size: 32px; box-shadow: 0 4px 10px rgba(0,0,0,.08); }`,
     readonlyHint: `/* Grid με 3 ίσες στήλες!
-   - display: grid
-   - grid-template-columns: repeat(3, 1fr)
-   - gap ≥ 16px */`,
+   - Πλέγμα (grid)
+   - 3 ίσες στήλες
+   - Με κενό ανάμεσα */`,
     starterCSS: `.grid {
-  
+
 }`,
     instructions: [
-      "<code>display: grid</code>",
-      "<b>3 ίσες στήλες</b>",
-      "<code>gap</code> ≥ 16px",
+      "Εμφάνισε τα προϊόντα σε <b>πλέγμα (grid)</b>",
+      "Όρισε <b>3 ίσες στήλες</b>",
+      "Άφησε <b>κενό ανάμεσα στα προϊόντα</b>",
     ],
     hints: [
       "💡 <code>display: grid;</code>",
@@ -274,7 +275,7 @@ const LEVELS = [
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }`,
-    reward: { antivirus: 1, hint: 1 },
+    reward: { antivirus: 1 },
   },
 
   /* -------- LEVEL 6 — POSITION -------- */
@@ -299,18 +300,18 @@ const LEVELS = [
       .price { color: #2563eb; font-weight: 700; font-size: 20px; }
       .badge { background: #ef4444; color: white; padding: 4px 10px; border-radius: 999px; font-weight: bold; font-size: 14px; display: inline-block; }`,
     readonlyHint: `/* Τοποθέτησε το badge πάνω-δεξιά!
-   .product-card → position: relative
-   .badge → position: absolute, top: 10px, right: 10px */`,
+   .product-card → το badge θα τοποθετείται μέσα σ' αυτήν
+   .badge → στην πάνω-δεξιά γωνία της κάρτας */`,
     starterCSS: `.product-card {
-  
+
 }
 
 .badge {
-  
+
 }`,
     instructions: [
-      "<code>.product-card</code>: <code>position: relative</code>",
-      "<code>.badge</code>: <code>position: absolute</code>, πάνω-δεξιά",
+      "<code>.product-card</code>: κάν' την ώστε το badge να <b>τοποθετείται μέσα της</b> (όχι σε σχέση με όλη τη σελίδα)",
+      "<code>.badge</code>: <b>κόλλησέ το στην πάνω-δεξιά γωνία</b> της κάρτας",
     ],
     hints: [
       "💡 <code>position: absolute</code> τοποθετείται σε σχέση με τον πιο κοντινό γονιό που ΔΕΝ είναι <code>static</code>",
@@ -332,7 +333,7 @@ const LEVELS = [
   top: 10px;
   right: 10px;
 }`,
-    reward: { antivirus: 1, hint: 1 },
+    reward: { hint: 1 },
   },
 
   /* -------- LEVEL 7 — BOSS -------- */
@@ -355,12 +356,12 @@ const LEVELS = [
       </div>`,
     baseStyles: `body { font-family: system-ui, sans-serif; margin: 0; padding: 24px; background: #0f172a; min-height: 100vh; }`,
     readonlyHint: `/* Boss Battle — Χρησιμοποίησε τα πάντα!
-   .checkout → λευκό φόντο, padding 24px, border-radius 12px, max-width 500px, margin: 0 auto
+   .checkout → λευκή κάρτα, padding, στρογγυλεμένες γωνίες, περιορισμένο πλάτος, κεντραρισμένη
    .title → κεντραρισμένο, σκούρο μπλε
-   .row → flex column, gap 12px, margin-bottom 20px
-   .item → flex, space-between, padding 12px, background #f3f4f6, border-radius 8px
-   .total → κεντραρισμένο, font-size 20px, margin-bottom 16px
-   .pay-btn → width 100%, πράσινο, λευκό, no border, border-radius 8px, padding 14px, pointer, bold */`,
+   .row → κάθετη στοίβα με κενό
+   .item → όνομα & τιμή στις άκρες, γκρι φόντο
+   .total → κεντραρισμένο, μεγαλύτερο κείμενο
+   .pay-btn → πλήρες πλάτος, πράσινο, λευκό, χωρίς border, στρογγυλεμένο, bold */`,
     starterCSS: `.checkout {
   
 }
@@ -385,12 +386,12 @@ const LEVELS = [
   
 }`,
     instructions: [
-      "<code>.checkout</code>: λευκό φόντο, padding, border-radius, max-width 500px, κεντραρισμένο",
-      "<code>.title</code>: κεντραρισμένο, σκούρο μπλε",
-      "<code>.row</code>: flex column, gap",
-      "<code>.item</code>: flex + space-between, γκρι φόντο",
-      "<code>.total</code>: κεντραρισμένο, μεγάλο font",
-      "<code>.pay-btn</code>: πλήρες πλάτος, πράσινο, χωρίς border",
+      "<code>.checkout</code>: κάν' το <b>λευκή κάρτα</b> — με padding, στρογγυλεμένες γωνίες, <b>όχι πολύ φαρδιά</b> και <b>κεντραρισμένη</b> στη σελίδα",
+      "<code>.title</code>: <b>κεντραρισμένος</b> τίτλος σε <b>σκούρο μπλε</b>",
+      "<code>.row</code>: βάλε τα προϊόντα σε <b>κάθετη στήλη</b>, με κενό",
+      "<code>.item</code>: <b>όνομα αριστερά, τιμή δεξιά</b>, με γκρι φόντο",
+      "<code>.total</code>: <b>κεντραρισμένο</b>, με <b>μεγαλύτερα γράμματα</b>",
+      "<code>.pay-btn</code>: κουμπί που <b>πιάνει όλο το πλάτος</b>, πράσινο, χωρίς border",
     ],
     hints: [
       "💡 <code>margin: 0 auto;</code> κεντράρει block element",
@@ -456,7 +457,7 @@ const LEVELS = [
   cursor: pointer;
   font-weight: bold;
 }`,
-    reward: { antivirus: 2, hint: 2 },
+    reward: {},
   },
 ];
 

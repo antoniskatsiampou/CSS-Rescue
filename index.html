@@ -55,11 +55,11 @@
                 preview</b> καθώς γράφεις</li>
             <li><span class="material-symbols-outlined rule-icon">check_circle</span> Πατάς <b>«Έλεγχος»</b> για να
               ελέγξεις τη λύση σου (ή Ctrl+Enter)</li>
-            <li><span class="material-symbols-outlined rule-icon">favorite</span> Λάθη αυξάνουν την <b
+            <li><span class="material-symbols-outlined rule-icon">favorite</span> Λάθη και βοήθειες αυξάνουν την <b
                 class="hacker-emphasis">πρόοδο του hacker</b></li>
-            <li><span class="material-symbols-outlined rule-icon">lightbulb</span> Έχεις περιορισμένα <b>hints</b> και
-              <b>antivirus</b></li>
-            <li><span class="material-symbols-outlined rule-icon">emoji_events</span> Καθαρή λύση χωρίς λάθη/hints
+            <li><span class="material-symbols-outlined rule-icon">lightbulb</span> Έχεις περιορισμένα <b>antivirus</b> και
+              <b>βοήθειες</b></li>
+            <li><span class="material-symbols-outlined rule-icon">emoji_events</span> Καθαρή λύση χωρίς λάθη/βοήθειες
               δίνουν <b>bonus πόντους &amp; combo</b></li>
           </ul>
         </div>
@@ -73,7 +73,7 @@
       <div class="intro-actions">
         <button id="start-btn" class="btn-primary big" type="button">
           <span class="material-symbols-outlined inline-icon">rocket_launch</span>
-          ΞΕΚΙΝΑ ΤΟ ΠΑΙΧΝΙΔΙ
+          <span class="start-btn-label">ΕΝΑΡΞΗ ΠΑΙΧΝΙΔΙΟΥ</span>
         </button>
         <button id="continue-btn" class="btn-primary big continue hidden" type="button">
           <span class="material-symbols-outlined inline-icon">play_arrow</span>
@@ -92,13 +92,14 @@
 
     <!------------------------------ TOP BAR ----------------------------------- -->
     <header class="topbar">
-      <button id="brand-btn" class="brand" aria-label="Επιστροφή στην αρχική" title="Επιστροφή στην αρχική">
-  <span class="brand-t1">CSS</span>
-  <img src="icons/css-3.svg" alt="" class="brand-logo" aria-hidden="true" />
-  <span class="brand-t2">_</span><span class="brand-t3">RESCUE</span>
-</button>
+      <!-- ΑΡΙΣΤΕΡΗ ΟΜΑΔΑ: logo + μπάρα Hacker -->
+      <div class="topbar-left">
+        <button id="brand-btn" class="brand" aria-label="Επιστροφή στην αρχική" title="Επιστροφή στην αρχική">
+          <span class="brand-t1">CSS</span>
+          <img src="icons/css-3.svg" alt="" class="brand-logo" aria-hidden="true" />
+          <span class="brand-t2">_</span><span class="brand-t3">RESCUE</span>
+        </button>
 
-      <div class="stats">
         <!-- Hacker Progress - game over στο 100% -->
         <div class="stat hacker-stat">
           <span class="mini-avatar" aria-hidden="true">🕶️</span>
@@ -113,7 +114,14 @@
           </div>
           <div id="hacker-label" class="stat-value">0%</div>
         </div>
+      </div>
 
+      <!-- ΚΡΥΜΜΕΝΑ ELEMENTS ΓΙΑ ΤΗΝ JAVASCRIPT -->
+      <span id="combo-label" class="hidden">x1</span>
+      <span id="level-progress" class="hidden">Επίπεδο 1 / 7</span>
+
+      <!-- ΔΕΞΙΑ ΟΜΑΔΑ: level dots + score + ήχος -->
+      <div class="topbar-right">
         <!-- ΕΠΙΠΕΔΑ - ΤΕΛΕΙΕΣ -->
         <div class="stat level-stat">
           <div class="level-dots" id="level-dots" aria-label="Πρόοδος επιπέδων">
@@ -126,14 +134,12 @@
             <div class="level-dot" data-level="6" title="Επίπεδο 7"></div>
           </div>
         </div>
-      </div>
 
-      <!-- ΚΡΥΜΜΕΝΑ ELEMENTS ΓΙΑ ΤΗΝ JAVASCRIPT -->
-      <span id="score-label" class="hidden">00000</span>
-      <span id="combo-label" class="hidden">x1</span>
-      <span id="level-progress" class="hidden">Επίπεδο 1 / 7</span>
-
-      <div class="topbar-right">
+        <!-- Score - πόντοι παίκτη -->
+        <div class="score-stat" title="Πόντοι">
+          <span class="score-star" aria-hidden="true">★</span>
+          <span id="score-label" class="score-value">00000</span>
+        </div>
         <button id="sound-toggle" type="button" class="icon-btn"
           aria-label="Εναλλαγή ήχου" aria-pressed="true">
           <span class="material-symbols-outlined">volume_up</span>
@@ -142,12 +148,8 @@
     </header>
 
     <!---------------- ΜΠΑΡΑ INVENTORY ------------->
-    <div class="inventory-bar" role="toolbar" aria-label="Inventory">
-      <span class="inv-label">
-        <span class="material-symbols-outlined inline-icon">inventory_2</span>
-        Inventory:
-      </span>
-      <button id="inv-antivirus" type="button" class="inv-item" title="Antivirus: -30% στον hacker">
+    <div class="inventory-bar" role="toolbar" aria-label="Αντικείμενα παιχνιδιού">
+      <button id="inv-antivirus" type="button" class="inv-item" title="Antivirus: −25% στην πρόοδο του hacker">
         <span class="material-symbols-outlined inline-icon">shield</span>
         Antivirus
         <span class="inv-count" id="inv-antivirus-count">1</span>
@@ -155,7 +157,7 @@
       <span class="inv-divider" aria-hidden="true">|</span>
       <span class="inv-info">
         <span class="material-symbols-outlined inline-icon">lightbulb</span>
-        Hints: <span id="inv-hint-count">3</span>
+        Βοήθειες: <span id="inv-hint-count">3</span>
       </span>
     </div>
 
@@ -188,11 +190,11 @@
             Πώς υπολογίζονται οι πόντοι;
           </summary>
           <ul>
-            <li>+100 βασικοί πόντοι ανά επιτυχημένο επίπεδο</li>
-            <li>+50 bonus αν λύσεις με την πρώτη, χωρίς hints</li>
-            <li>+25 bonus αν λύσεις χωρίς hints (όχι πρώτη)</li>
-            <li>Combo ×1.1 για κάθε διαδοχική τέλεια προσπάθεια</li>
-            <li>Αν δεις τη λύση: 0 πόντοι + combo reset</li>
+            <li>+100 βασικοί πόντοι ανά επίπεδο</li>
+            <li>−15 πόντοι για κάθε λάθος, −20 για κάθε βοήθεια</li>
+            <li>Καθαρή λύση (χωρίς λάθη/βοήθειες) → <b>combo</b>: +20 × σερί</li>
+            <li>Αν δεις τη λύση: 0 πόντοι + μηδενισμός combo</li>
+            <li>Λάθη & βοήθειες ανεβάζουν την πρόοδο του hacker</li>
           </ul>
         </details>
 
@@ -227,7 +229,7 @@
           </button>
           <button id="hint-btn" type="button" class="action-btn secondary">
             <span class="material-symbols-outlined inline-icon">lightbulb</span>
-            Hint
+            Βοήθεια
           </button>
           <button id="reset-btn" type="button" class="action-btn tertiary">
             <span class="material-symbols-outlined inline-icon">restart_alt</span>
@@ -258,10 +260,10 @@
   <!-- POPUP DIALOGS -->
 
   <dialog id="hint-dialog" class="game-dialog">
-    <article class="dialog-body">
+    <article class="dialog-body theme-cyan">
       <h2 id="hint-dialog-title">
         <span class="material-symbols-outlined inline-icon">lightbulb</span>
-        Hint
+        Βοήθεια
       </h2>
       <div id="hint-body"></div>
       <form method="dialog">
@@ -315,7 +317,7 @@
   <dialog id="confirm-dialog" class="game-dialog">
     <article class="dialog-body confirm">
       <h2 id="confirm-dialog-title">
-        <span class="material-symbols-outlined inline-icon">help_outline</span>
+        <span id="confirm-dialog-icon" class="material-symbols-outlined inline-icon">help_outline</span>
         <span id="confirm-dialog-heading">Επιβεβαίωση</span>
       </h2>
       <p id="confirm-dialog-message"></p>

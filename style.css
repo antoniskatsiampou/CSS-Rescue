@@ -119,8 +119,10 @@ a, button, input, select, [role="button"], .action-btn, .inv-item, .icon-btn, .b
 
 /* Εικονίδιο κανόνα στη λίστα οδηγιών */
 .material-symbols-outlined.rule-icon {
+  position: absolute;
+  left: 0;
+  top: 5px;
   font-size: 18px;
-  margin-right: 8px;
   color: var(--cyan);
 }
 
@@ -399,19 +401,18 @@ body::after {
 /* Λίστα κανόνων */
 .rules ul {
   margin: 0;
-  padding-left: 19px;
+  padding-left: 0;
   list-style: none;
 }
 
-/* Κάθε κανόνας */
+/* Κάθε κανόνας — το εικονίδιο σε absolute, το κείμενο ρέει κανονικά
+   (όχι flex, αλλιώς τα inline <b> γίνονται ξεχωριστά flex items) */
 .rules li {
-  padding: 6px 0;
+  position: relative;
+  padding: 6px 0 6px 28px;
   font-size: 13px;
   line-height: 1.5;
   color: #d8def0;
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
 }
 
 /* Bold λέξεις-κλειδιά μέσα στους κανόνες */
@@ -677,17 +678,17 @@ body::after {
   }
 
   .rules ul {
-    padding-left: 8px;
+    padding-left: 0;
   }
 
   .rules li {
     font-size: 11px;
-    padding: 4px 0;
+    padding: 4px 0 4px 24px;
   }
 
   .material-symbols-outlined.rule-icon {
     font-size: 16px;
-    margin-right: 6px;
+    top: 4px;
   }
 
   /* Goal box */
@@ -737,11 +738,20 @@ body::after {
 .topbar {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 24px;
   padding: 10px 24px;
   background: rgba(10, 14, 26, .85);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
+}
+
+/* Αριστερή ομάδα: logo + μπάρα Hacker */
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-width: 0;
 }
 
 /* Brand [CSS_RESCUE] */
@@ -750,7 +760,7 @@ body::after {
   align-items: center;
   gap: 8px;
   font-family: "VT323", monospace;
-  font-size: 26px;
+  font-size: 30px;
   letter-spacing: 2px;
   white-space: nowrap;
   flex-shrink: 0;
@@ -783,20 +793,12 @@ body::after {
 }
 
 .brand-logo {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   filter: drop-shadow(0 0 6px rgba(6, 182, 212, .4));
 }
 
 /* ------------------------------- STATS ----------------------------------- */
-
-.stats {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  min-width: 0;
-}
 
 .stat {
   display: flex;
@@ -806,9 +808,12 @@ body::after {
 }
 
 .hacker-stat {
-  flex: 1;
+  flex: 0 1 420px;
+  width: 420px;
+  max-width: 420px;
   display: grid;
   grid-template-columns: auto 1fr auto;
+  gap: 10px;
 }
 
 .level-stat {
@@ -942,8 +947,34 @@ body::after {
 .topbar-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 18px;
   flex-shrink: 0;
+}
+
+/* Score — αστέρι με πόντους */
+.score-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 8px;
+  background: rgba(250, 204, 21, .08);
+  border: 1px solid rgba(250, 204, 21, .3);
+  flex-shrink: 0;
+}
+
+.score-star {
+  color: #fbbf24;
+  font-size: 20px;
+  line-height: 1;
+  text-shadow: 0 0 8px rgba(251, 191, 36, .6);
+}
+
+.score-value {
+  font-family: "VT323", monospace;
+  font-size: 24px;
+  letter-spacing: 1px;
+  color: #fde68a;
 }
 
 .icon-btn {
@@ -1556,6 +1587,36 @@ body::after {
   margin: 4px 0;
 }
 
+/* Σύνολο πόντων επιπέδου */
+.reward-total {
+  font-family: "VT323", monospace;
+  font-size: 28px;
+  color: var(--primary-hi);
+  text-shadow: var(--glow-primary);
+}
+
+/* Ανάλυση πόντων (βάση / ποινές / combo) */
+.reward-breakdown {
+  list-style: none;
+  margin: 8px 0 4px 0;
+  padding: 0;
+  text-align: left;
+  display: inline-block;
+  font-size: 12.5px;
+  color: var(--text-mute);
+  line-height: 1.7;
+}
+
+.reward-breakdown b {
+  color: var(--text);
+}
+
+.reward-gain {
+  color: var(--cyan);
+  font-size: 13px;
+  margin-top: 6px;
+}
+
 /* "Επόμενο: ..." teaser */
 .next-tease {
   font-size: 13px;
@@ -1574,6 +1635,12 @@ body::after {
   text-shadow: 0 0 20px rgba(251, 191, 36, .6);
   margin-bottom: 8px;
   letter-spacing: 4px;
+}
+
+/* Άδεια αστέρια (όσα δεν κέρδισε ο παίκτης) */
+.rating-empty {
+  color: rgba(251, 191, 36, .22);
+  text-shadow: none;
 }
 
 .grad-msg {
@@ -1636,6 +1703,35 @@ body::after {
 .dialog-body.confirm h2 {
   color: var(--cyan);
   text-shadow: var(--glow-cyan);
+}
+
+/* Χρωματικά θέματα dialog — border + τίτλος ίδια με το αντίστοιχο κουμπί.
+   Τοποθετημένα μετά το .confirm ώστε να υπερισχύουν (ίδια specificity). */
+.dialog-body.theme-cyan {            /* Βοήθεια (secondary) */
+  border-color: var(--cyan);
+  box-shadow: 0 0 60px rgba(6, 182, 212, .2);
+}
+.dialog-body.theme-cyan h2 {
+  color: var(--cyan);
+  text-shadow: var(--glow-cyan);
+}
+
+.dialog-body.theme-danger {          /* Δες λύση (danger / πορτοκαλί) */
+  border-color: #f97316;
+  box-shadow: 0 0 60px rgba(249, 115, 22, .22);
+}
+.dialog-body.theme-danger h2 {
+  color: #f97316;
+  text-shadow: 0 0 12px rgba(249, 115, 22, .5);
+}
+
+.dialog-body.theme-neutral {         /* Reset (tertiary / muted) */
+  border-color: var(--border-2);
+  box-shadow: 0 0 50px rgba(0, 0, 0, .4);
+}
+.dialog-body.theme-neutral h2 {
+  color: var(--text-mute);
+  text-shadow: none;
 }
 
 .confirm-actions {
@@ -1708,11 +1804,17 @@ body.glitch .game-main {
 
 /*--------------------------------- RESPONSIVE — GAME SCREEN --------------------------------- */
 
-/* Tablet - απλοποίηση stats */
+/* Tablet - απλοποίηση: κρύβουμε τα level dots, η μπάρα μένει στην αριστερή ομάδα */
 @media (max-width: 1200px) {
-  .stats {
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+  .topbar-left {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .hacker-stat {
+    flex: 1;
+    width: auto;
+    max-width: 520px;
   }
 
   .stat.level-stat {
@@ -1766,26 +1868,45 @@ body.glitch .game-main {
   }
 
   .brand {
-    text-align: center;
+    font-size: 19px;
+    letter-spacing: 1px;
+    padding: 4px 4px;
   }
 
-  .stats {
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
+  .brand-logo {
+    width: 26px;
+    height: 26px;
+  }
+
+  /* Mobile: 1η σειρά = logo (αριστερά) + score/ήχος (δεξιά), 2η σειρά = μπάρα.
+     display:contents «διαλύει» την αριστερή ομάδα ώστε τα στοιχεία να γίνουν
+     direct flex-children του .topbar· το space-between τα ωθεί στα άκρα. */
+  .topbar-left {
+    display: contents;
+  }
+
+  .brand {
+    order: 1;
+  }
+
+  .topbar-right {
+    order: 2;
+    gap: 10px;
   }
 
   .hacker-stat {
+    order: 3;
+    flex: 1 0 100%;
     width: 100%;
+    max-width: none;
   }
 
-  .level-dots {
-    gap: 8px;
+  .score-value {
+    font-size: 20px;
   }
 
-  .level-dot {
-    width: 14px;
-    height: 14px;
+  .score-star {
+    font-size: 18px;
   }
 
   .inventory-bar {
