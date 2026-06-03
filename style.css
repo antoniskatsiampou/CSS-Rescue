@@ -401,7 +401,9 @@ body::after {
 /* Λίστα κανόνων */
 .rules ul {
   margin: 0;
-  padding-left: 0;
+  /* Στοίχιση των εικονιδίων κανόνων με το εικονίδιο του "Στόχος:"
+     (όσο το padding-left του .goal-box) */
+  padding-left: 18px;
   list-style: none;
 }
 
@@ -592,6 +594,11 @@ body::after {
     padding-left: 14px;
   }
 
+  /* Στοίχιση με το εικονίδιο του "Στόχος:" (padding-left του goal-box) */
+  .rules ul {
+    padding-left: 14px;
+  }
+
   .rules li {
     font-size: 12px;
   }
@@ -677,8 +684,9 @@ body::after {
     margin-bottom: 8px;
   }
 
+  /* Στοίχιση με το εικονίδιο του "Στόχος:" (padding-left του goal-box) */
   .rules ul {
-    padding-left: 0;
+    padding-left: 12px;
   }
 
   .rules li {

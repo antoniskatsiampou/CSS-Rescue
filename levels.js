@@ -14,7 +14,7 @@ const LEVELS = [
   /* -------- LEVEL 1 — TUTORIAL -------- */
   {
     id: 1,
-    title: "Επίπεδο 1: Welcome Banner",
+    title: "Επίπεδο 1: Το Banner Καλωσορίσματος",
     subtitle: "Tutorial — Χρώματα & Padding",
     penalty: 6,
     story: "Πρώτη μέρα στη δουλειά και ο Hacker χτύπησε! Το welcome banner της PixelMart εμφανίζεται γυμνό, χωρίς καθόλου styling. Δώσε του ζωή πριν φτάσει ο πρώτος πελάτης.",
@@ -164,7 +164,7 @@ const LEVELS = [
   /* -------- LEVEL 4 — NAVIGATION -------- */
   {
     id: 4,
-    title: "Επίπεδο 4: Navigation Madness",
+    title: "Επίπεδο 4: Η Μάχη του Navigation",
     subtitle: "Flex + list-style + text-decoration",
     penalty: 9,
     story: "Το menu πλοήγησης εμφανίζεται κάθετα, με κουκκίδες και υπογραμμίσεις. Κάν' το οριζόντιο!",
@@ -227,7 +227,7 @@ const LEVELS = [
   /* -------- LEVEL 5 — GRID -------- */
   {
     id: 5,
-    title: "Επίπεδο 5: Grid Wars",
+    title: "Επίπεδο 5: Η Μάχη του Grid",
     subtitle: "CSS Grid Layout",
     penalty: 10,
     story: "6 προϊόντα πρέπει να εμφανίζονται σε πλέγμα 3 στηλών. Καιρός για CSS Grid!",
@@ -276,7 +276,7 @@ const LEVELS = [
   /* -------- LEVEL 6 — POSITION -------- */
   {
     id: 6,
-    title: "Επίπεδο 6: Το Sale Badge",
+    title: "Επίπεδο 6: Η Ετικέτα Προσφοράς",
     subtitle: "Position: relative & absolute",
     penalty: 11,
     story: "Χρειαζόμαστε κόκκινο badge «-50%» πάνω-δεξιά στην κάρτα. Ο Hacker το άφησε να επιπλέει τυχαία…",
@@ -334,7 +334,7 @@ const LEVELS = [
   /* -------- LEVEL 7 — BOSS -------- */
   {
     id: 7,
-    title: "Επίπεδο 7: Η Τελική Μάχη — Checkout Page",
+    title: "Επίπεδο 7: Final Boss — Η Μάχη του Checkout",
     subtitle: "BOSS BATTLE — Όλα μαζί!",
     penalty: 14,
     story: "Τελευταία μάχη. Ο Bug κατέστρεψε τη σελίδα ολοκλήρωσης παραγγελίας. Αν την επαναφέρεις, σώζεις την PixelMart!",
