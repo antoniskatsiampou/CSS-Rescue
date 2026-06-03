@@ -1,10 +1,3 @@
-/* ============================================================
-   CSS RESCUE — Game Logic (v2)
-   - Μόνο hackerProgress (0→100, game over στο 100)
-   - Native <dialog> API
-   - Fix: solution δεν δίνει πόντους
-   - Penalty ανά επίπεδο (διαβαθμισμένη δυσκολία)
-   ============================================================ */
 
 /* ---------- STATE ---------- */
 const STATE = {
@@ -32,8 +25,7 @@ const STATE = {
 const STORAGE_KEY = "css-rescue-v2";
 
 /* ---------- SECURITY HELPERS ---------- */
-// Sanitize a value that will be embedded in innerHTML.
-// Numbers are cast to integer; anything non-numeric falls back to 0.
+
 const safeNum = (v) => Number.isFinite(Number(v)) ? Math.floor(Number(v)) : 0;
 
 /* ---------- DOM REFS ---------- */
@@ -75,7 +67,7 @@ const ui = {
   resetBtn:    $id("reset-btn"),
   solutionBtn: $id("solution-btn"),
 
-  // dialogs (native)
+  // dialogs 
   hintDialog:          $id("hint-dialog"),
   hintBody:            $id("hint-body"),
   levelCompleteDialog: $id("level-complete-dialog"),
@@ -144,7 +136,7 @@ function renderPreview(css) {
 </head><body>${level.targetHTML}</body></html>`);
   doc.close();
 
-  // 2. Περνάμε το CSS με ασφάλεια ως textContent (Αποτρέπει το XSS)
+  // 2. Περνάμε το CSS ως textContent 
   const userStyleTag = doc.getElementById("user-css");
   if (userStyleTag) {
     userStyleTag.textContent = css;
@@ -402,7 +394,7 @@ function onHint() {
   STATE.hintsUsedThisLevel++;
   STATE.totalHintsUsed++;
 
-  // Η βοήθεια δίνει λίγο έδαφος στον hacker (όσο ο μισός penalty του επιπέδου)
+  // Η βοήθεια δίνει έδαφος στον hacker 
   const hackerCost = Math.round((level.penalty || 8) / 2);
   STATE.hackerProgress = Math.min(100, STATE.hackerProgress + hackerCost);
 
@@ -420,7 +412,7 @@ function onHint() {
   }
 }
 
-/* ---------- CUSTOM CONFIRM (replaces native confirm) ---------- */
+/* ---------- CUSTOM CONFIRM ---------- */
 function gameConfirm(message, heading = "Επιβεβαίωση", icon = "help_outline", theme = "theme-cyan") {
   return new Promise((resolve) => {
     const dialog = $id("confirm-dialog");
@@ -519,7 +511,7 @@ function gameOver() {
 }
 
 /* Αστέρια: λάθη + βοήθειες ορίζουν την επίδοση, οι λύσεις βάζουν ταβάνι.
-   3★ = καμία λύση & ≤3 (λάθη+βοήθειες). Κάθε «Δες λύση» κόβει αστέρι. */
+   3 αστέρια = καμία λύση & ≤3 (λάθη+βοήθειες). Κάθε "Δες λύση" κόβει αστέρι. */
 function computeStars() {
   const sols = STATE.totalSolutionsViewed || 0;
   const combined = (STATE.totalMistakes || 0) + (STATE.totalHintsUsed || 0);
@@ -579,8 +571,7 @@ function loadSave() {
     const data = JSON.parse(raw);
     if (!data || typeof data !== "object") return null;
 
-    // Validation των untrusted δεδομένων — αν το save είναι πειραγμένο/χαλασμένο
-    // το αγνοούμε αντί να κρασάρει το παιχνίδι (π.χ. currentLevel εκτός ορίων).
+    // Validation 
     const lvl = data.currentLevel;
     if (!Number.isInteger(lvl) || lvl < 0 || lvl >= LEVELS.length) return null;
 
@@ -594,9 +585,7 @@ function start(fromSave = null) {
   ui.gameScreen.classList.remove("hidden");
 
   if (fromSave) {
-    // Explicit whitelist — only known, typed fields are restored.
-    // Prevents prototype pollution and unexpected key injection from
-    // a tampered localStorage save.
+    
     STATE.currentLevel         = safeNum(fromSave.currentLevel);
     STATE.hackerProgress       = Math.min(100, Math.max(0, safeNum(fromSave.hackerProgress)));
     STATE.score                = Math.max(0, safeNum(fromSave.score));
@@ -621,7 +610,7 @@ function start(fromSave = null) {
 
     loadLevel(STATE.currentLevel);
     if (fromSave.editorContent && typeof fromSave.editorContent === "string") {
-      // editorContent goes through textContent in renderPreview — XSS-safe.
+      
       ui.editor.value = fromSave.editorContent;
       renderPreview(fromSave.editorContent);
     }
@@ -694,7 +683,7 @@ function init() {
     }
   });
 
-  // Check for saved game — show continue button if save exists
+  // Check for saved game - show continue button if save exists
   const saved = loadSave();
   const continueBtn = $id("continue-btn");
   if (saved && !saved.finished) {
