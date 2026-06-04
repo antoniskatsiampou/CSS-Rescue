@@ -180,7 +180,8 @@ body::after {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow-y: hidden;
+  /* Κύλιση όταν το περιεχόμενο δεν χωράει σε κοντές οθόνες (π.χ. laptop) */
+  overflow-y: auto;
   padding: 24px 16px;
 }
 
@@ -214,6 +215,8 @@ body::after {
   position: relative;
   z-index: 1;
   padding: 12px 16px;
+  /* Κεντράρει όταν χωράει, αλλά δεν κόβει την κορυφή όταν ξεχειλίζει */
+  margin: auto;
 }
 
 /* "Serious Game | Εκμάθηση CSS" */
