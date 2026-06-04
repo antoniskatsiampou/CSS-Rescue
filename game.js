@@ -310,7 +310,7 @@ function onSubmit() {
           STATE.combo++;
           const comboBonus = STATE.combo * 20;
           earned += comboBonus;
-          breakdown.push(`🔥 Καθαρή λύση! Combo x${STATE.combo}: <b>+${comboBonus}</b>`);
+          breakdown.push(`Καθαρή λύση! Combo 🔥 x${STATE.combo}: <b>+${comboBonus}</b>`);
         } else {
           STATE.combo = 0;
         }
@@ -466,7 +466,7 @@ async function onSolution() {
   STATE.combo = 0;
 
   updateStats();
-  showFeedback("👁️ Είδες τη λύση. Κατάλαβέ την και πάτησε «Έλεγχος» για να συνεχίσεις. (0 πόντοι, −1 αστέρι)", "info");
+  showFeedback("👁️ Είδες τη λύση. Κατανόησέ την και πάτησε «Έλεγχος» για να συνεχίσεις. (0 πόντοι, −1 αστέρι)", "info");
   save();
 }
 

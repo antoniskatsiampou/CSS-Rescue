@@ -17,7 +17,7 @@ const LEVELS = [
     title: "Επίπεδο 1: Το Banner Καλωσορίσματος",
     subtitle: "Tutorial — Χρώματα & Padding",
     penalty: 6,
-    story: "Πρώτη μέρα στη δουλειά και ο Hacker χτύπησε! Το welcome banner της PixelMart εμφανίζεται γυμνό, χωρίς καθόλου styling. Δώσε του ζωή πριν φτάσει ο πρώτος πελάτης.",
+    story: "Ο Hacker χτύπησε! Το banner καλωσορίσματος της PixelMart εμφανίζεται χωρίς καθόλου styling. Δώσε του ζωή πριν φτάσει ο πρώτος πελάτης.",
     targetHTML: `
       <div class="banner">
         <h1>Καλώς ήρθες στην PixelMart!</h1>
@@ -68,7 +68,7 @@ const LEVELS = [
     title: "Επίπεδο 2: Τα Κουμπιά της Συμφοράς",
     subtitle: "Backgrounds, Borders & Border-radius",
     penalty: 7,
-    story: "Όλα τα κουμπιά «Αγορά» μοιάζουν με κουμπιά του 1995. Ο Hacker χτύπησε ξανά! Κάνε τα ελκυστικά.",
+    story: "Όλα τα κουμπιά «Αγορά» μοιάζουν με κουμπιά του 1995. Ο Hacker χτύπησε ξανά! Κάνε τα πιο ελκυστικά.",
     targetHTML: `
       <div style="display:flex; gap:12px; flex-wrap:wrap;">
         <button class="btn">Αγορά Τώρα</button>
@@ -125,7 +125,7 @@ const LEVELS = [
     title: "Επίπεδο 3: Η Μάχη του Flexbox",
     subtitle: "Display: flex & gap",
     penalty: 8,
-    story: "Τα προϊόντα εμφανίζονται το ένα κάτω από το άλλο! Πρέπει να μπουν δίπλα-δίπλα. Χρόνος για Flexbox!",
+    story: "Τα προϊόντα εμφανίζονται το ένα κάτω από το άλλο! Πρέπει να μπουν το ένα δίπλα στο άλλο. Ώρα για Flexbox!",
     targetHTML: `
       <div class="products">
         <div class="card">📱<br/>Smartphone<br/><b>299€</b></div>
@@ -167,7 +167,7 @@ const LEVELS = [
     title: "Επίπεδο 4: Η Μάχη του Navigation",
     subtitle: "Flex + list-style + text-decoration",
     penalty: 9,
-    story: "Το menu πλοήγησης εμφανίζεται κάθετα, με κουκκίδες και υπογραμμίσεις. Κάν' το οριζόντιο!",
+    story: "Το menu πλοήγησης εμφανίζεται κάθετα, με κουκκίδες και υπογραμμίσεις. Κάν' το να εμφανίζεται οριζόντια!",
     targetHTML: `
       <nav class="nav">
         <ul class="nav-list">
@@ -230,7 +230,7 @@ const LEVELS = [
     title: "Επίπεδο 5: Η Μάχη του Grid",
     subtitle: "CSS Grid Layout",
     penalty: 10,
-    story: "6 προϊόντα πρέπει να εμφανίζονται σε πλέγμα 3 στηλών. Καιρός για CSS Grid!",
+    story: "Τα προϊόντα πρέπει να εμφανίζονται σε 3 στήλες. Ώρα για Grid!",
     targetHTML: `
       <div class="grid">
         <div class="product">📱<br/>299€</div>
@@ -279,7 +279,7 @@ const LEVELS = [
     title: "Επίπεδο 6: Η Ετικέτα Προσφοράς",
     subtitle: "Position: relative & absolute",
     penalty: 11,
-    story: "Χρειαζόμαστε κόκκινο badge «-50%» πάνω-δεξιά στην κάρτα. Ο Hacker το άφησε να επιπλέει τυχαία…",
+    story: "Χρειαζόμαστε κόκκινο σήμα έκπτωσης «-50%» πάνω δεξιά στην κάρτα. Ο Hacker το άφησε να επιπλέει τυχαία…",
     targetHTML: `
       <div class="product-card">
         <div class="badge">-50%</div>
@@ -337,7 +337,7 @@ const LEVELS = [
     title: "Επίπεδο 7: Final Boss — Η Μάχη του Checkout",
     subtitle: "BOSS BATTLE — Όλα μαζί!",
     penalty: 14,
-    story: "Τελευταία μάχη. Ο Bug κατέστρεψε τη σελίδα ολοκλήρωσης παραγγελίας. Αν την επαναφέρεις, σώζεις την PixelMart!",
+    story: "Τελευταία μάχη. Ο Hacker κατέστρεψε τη σελίδα ολοκλήρωσης παραγγελίας. Αν την επαναφέρεις, σώζεις την PixelMart!",
     targetHTML: `
       <div class="checkout">
         <h2 class="title">Ολοκλήρωση Παραγγελίας</h2>
