@@ -634,8 +634,15 @@ function start(fromSave = null) {
 }
 
 function init() {
-  // Start button
-  ui.startBtn.addEventListener("click", () => {
+  // Start button — αν υπάρχει αποθηκευμένη πρόοδος, ζήτα επιβεβαίωση πριν τη σβήσεις
+  ui.startBtn.addEventListener("click", async () => {
+    const existing = loadSave();
+    if (existing && !existing.finished) {
+      const ok = await gameConfirm(
+        "Υπάρχει αποθηκευμένη πρόοδος. Θα ξεκινήσεις από την αρχή και θα τη χάσεις.",
+        "Επανεκκίνηση", "restart_alt", "theme-danger");
+      if (!ok) return;
+    }
     localStorage.removeItem(STORAGE_KEY);
     start();
   });
@@ -674,6 +681,22 @@ function init() {
 
   // Live preview on typing
   ui.editor.addEventListener("input", () => renderPreview(ui.editor.value));
+
+  // Enter → κράτα το ίδιο indentation με την τρέχουσα γραμμή (όχι παραπάνω)
+  ui.editor.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" || e.shiftKey || e.ctrlKey || e.altKey || e.metaKey) return;
+    e.preventDefault();
+    const el = e.target;
+    const start = el.selectionStart;
+    const end = el.selectionEnd;
+    const value = el.value;
+    const lineStart = value.lastIndexOf("\n", start - 1) + 1;
+    const indent = (value.slice(lineStart, start).match(/^[ \t]*/) || [""])[0];
+    const insert = "\n" + indent;
+    el.value = value.slice(0, start) + insert + value.slice(end);
+    el.selectionStart = el.selectionEnd = start + insert.length;
+    renderPreview(el.value);
+  });
 
   // Ctrl+Enter shortcut
   document.addEventListener("keydown", (e) => {
