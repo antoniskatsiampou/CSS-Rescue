@@ -384,32 +384,59 @@ function onSubmit() {
   }, 100);
 }
 
+// Βρίσκει το πρώτο requirement που ΔΕΝ ικανοποιείται ακόμα στο τρέχον CSS
+// (είτε ο selector δεν υπάρχει, είτε η τιμή δεν περνά το test).
+// Επιστρέφει το check ή null αν όλα είναι σωστά.
+function firstFailingCheck(level) {
+  for (const check of level.checks) {
+    const val = getComputed(check.selector, check.property);
+    if (val === null || !check.test(val)) return check;
+  }
+  return null;
+}
+
 function onHint() {
   if (STATE.inventory.hint <= 0) return;
-  Sound.hint();
   const level = LEVELS[STATE.currentLevel];
-  const hint = level.hints[STATE.hintsUsedThisLevel] || level.hints[level.hints.length - 1];
 
-  STATE.inventory.hint--;
-  STATE.hintsUsedThisLevel++;
-  STATE.totalHintsUsed++;
+  // Render με το τρέχον CSS του χρήστη, ώστε να δούμε ΤΙ λείπει αυτή τη στιγμή
+  renderPreview(ui.editor.value);
 
-  // Η βοήθεια δίνει έδαφος στον hacker 
-  const hackerCost = Math.round((level.penalty || 8) / 2);
-  STATE.hackerProgress = Math.min(100, STATE.hackerProgress + hackerCost);
+  setTimeout(() => {
+    const check = firstFailingCheck(level);
 
-  ui.hintBody.innerHTML = `
-    <h3>Βοήθεια #${STATE.hintsUsedThisLevel}</h3>
-    <p>${hint}</p>
-    <small>Κόστος: −20 πόντοι στη λύση και +${hackerCost}% στον hacker.</small>`;
-  ui.hintDialog.showModal();
-  updateStats();
-  save();
+    // Όλα δείχνουν σωστά → μη χρεώσεις βοήθεια, καθοδήγησε σε Έλεγχο
+    if (!check) {
+      Sound.hint();
+      showFeedback(`
+        <b>✅ Όλα δείχνουν σωστά!</b>
+        <small>Πάτα «Έλεγχος» (ή Ctrl+Enter) για να περάσεις το επίπεδο.</small>
+      `, "success");
+      return;
+    }
 
-  if (STATE.hackerProgress >= 100) {
-    ui.hintDialog.close();
-    gameOver();
-  }
+    Sound.hint();
+    STATE.inventory.hint--;
+    STATE.hintsUsedThisLevel++;
+    STATE.totalHintsUsed++;
+
+    // Η βοήθεια δίνει έδαφος στον hacker
+    const hackerCost = Math.round((level.penalty || 8) / 2);
+    STATE.hackerProgress = Math.min(100, STATE.hackerProgress + hackerCost);
+
+    ui.hintBody.innerHTML = `
+      <h3>Βοήθεια #${STATE.hintsUsedThisLevel}</h3>
+      <p>${check.hint || check.msg}</p>
+      <small>Κόστος: −20 πόντοι στη λύση και +${hackerCost}% στον hacker.</small>`;
+    ui.hintDialog.showModal();
+    updateStats();
+    save();
+
+    if (STATE.hackerProgress >= 100) {
+      ui.hintDialog.close();
+      gameOver();
+    }
+  }, 100);
 }
 
 /* ---------- CUSTOM CONFIRM ---------- */

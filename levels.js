@@ -41,17 +41,11 @@ const LEVELS = [
       "<b>Κεντράρισε</b> το κείμενο",
       "Πρόσθεσε <b>padding τουλάχιστον 20px</b>",
     ],
-    hints: [
-      "💡 <code>background-color</code> αλλάζει το χρώμα φόντου. Π.χ. <code>background-color: #2563eb;</code>",
-      "💡 <code>color</code> αλλάζει χρώμα κειμένου. Δοκίμασε <code>color: white;</code>",
-      "💡 <code>text-align: center;</code> κεντράρει κείμενο",
-      "💡 <code>padding: 30px;</code> εσωτερικό κενό σε όλες τις πλευρές",
-    ],
     checks: [
-      { selector: ".banner", property: "background-color", test: isBlueish, msg: "Το <code>.banner</code> δεν έχει μπλε φόντο" },
-      { selector: ".banner", property: "color", test: isLightText, msg: "Κείμενο → λευκό/ανοιχτόχρωμο" },
-      { selector: ".banner", property: "text-align", test: (v) => v === "center", msg: "Κεντράρισε (<code>text-align: center</code>)" },
-      { selector: ".banner", property: "padding-top", test: atLeast(20), msg: "Padding ≥ 20px" },
+      { selector: ".banner", property: "background-color", test: isBlueish, msg: "Το <code>.banner</code> δεν έχει μπλε φόντο", hint: "💡 <code>background-color</code> αλλάζει το χρώμα φόντου. Π.χ. <code>background-color: #2563eb;</code>" },
+      { selector: ".banner", property: "color", test: isLightText, msg: "Κείμενο → λευκό/ανοιχτόχρωμο", hint: "💡 <code>color</code> αλλάζει χρώμα κειμένου. Δοκίμασε <code>color: white;</code>" },
+      { selector: ".banner", property: "text-align", test: (v) => v === "center", msg: "Κεντράρισε (<code>text-align: center</code>)", hint: "💡 <code>text-align: center;</code> κεντράρει κείμενο" },
+      { selector: ".banner", property: "padding-top", test: atLeast(20), msg: "Padding ≥ 20px", hint: "💡 <code>padding: 30px;</code> εσωτερικό κενό σε όλες τις πλευρές" },
     ],
     solution: `.banner {
   background-color: #2563eb;
@@ -94,19 +88,13 @@ const LEVELS = [
       "Πρόσθεσε <b>padding</b> για να αναπνέει το κείμενο",
       "Κάνε τον <b>δείκτη να γίνεται χεράκι</b> όταν περνάς πάνω από το κουμπί",
     ],
-    hints: [
-      "💡 <code>border: none;</code> αφαιρεί border",
-      "💡 <code>border-radius: 8px;</code> στρογγυλεμένες γωνίες",
-      "💡 <code>padding: 12px 24px;</code>",
-      "💡 <code>cursor: pointer;</code>",
-    ],
     checks: [
-      { selector: ".btn", property: "background-color", test: isGreenish, msg: "Πράσινο φόντο" },
-      { selector: ".btn", property: "color", test: isLightText, msg: "Λευκό κείμενο" },
-      { selector: ".btn", property: "border-top-width", test: (v) => px(v) === 0, msg: "<code>border: none</code>" },
-      { selector: ".btn", property: "border-top-left-radius", test: atLeast(6), msg: "<code>border-radius</code> ≥ 6px" },
-      { selector: ".btn", property: "padding-left", test: atLeast(15), msg: "Padding αριστερά-δεξιά" },
-      { selector: ".btn", property: "cursor", test: (v) => v === "pointer", msg: "<code>cursor: pointer</code>" },
+      { selector: ".btn", property: "background-color", test: isGreenish, msg: "Πράσινο φόντο", hint: "💡 <code>background-color: #10b981;</code> για πράσινο φόντο" },
+      { selector: ".btn", property: "color", test: isLightText, msg: "Λευκό κείμενο", hint: "💡 <code>color: white;</code> για λευκό κείμενο" },
+      { selector: ".btn", property: "border-top-width", test: (v) => px(v) === 0, msg: "<code>border: none</code>", hint: "💡 <code>border: none;</code> αφαιρεί border" },
+      { selector: ".btn", property: "border-top-left-radius", test: atLeast(6), msg: "<code>border-radius</code> ≥ 6px", hint: "💡 <code>border-radius: 8px;</code> στρογγυλεμένες γωνίες" },
+      { selector: ".btn", property: "padding-left", test: atLeast(15), msg: "Padding αριστερά-δεξιά", hint: "💡 <code>padding: 12px 24px;</code> άνετο εσωτερικό κενό" },
+      { selector: ".btn", property: "cursor", test: (v) => v === "pointer", msg: "<code>cursor: pointer</code>", hint: "💡 <code>cursor: pointer;</code> δείκτης «χεράκι» στο hover" },
     ],
     solution: `.btn {
   background-color: #10b981;
@@ -146,13 +134,9 @@ const LEVELS = [
       "Βάλε τις κάρτες <b>δίπλα-δίπλα σε μία γραμμή</b> (flexbox)",
       "Άφησε <b>κενό ανάμεσα στις κάρτες</b>",
     ],
-    hints: [
-      "💡 <code>display: flex;</code> τοποθετεί τα παιδιά σε γραμμή",
-      "💡 <code>gap: 16px;</code> απόσταση μεταξύ flex items",
-    ],
     checks: [
-      { selector: ".products", property: "display", test: (v) => v === "flex" || v === "inline-flex", msg: "<code>display: flex</code>" },
-      { selector: ".products", property: "gap", test: atLeast(12), msg: "<code>gap</code> ≥ 12px" },
+      { selector: ".products", property: "display", test: (v) => v === "flex" || v === "inline-flex", msg: "<code>display: flex</code>", hint: "💡 <code>display: flex;</code> τοποθετεί τα παιδιά σε γραμμή" },
+      { selector: ".products", property: "gap", test: atLeast(12), msg: "<code>gap</code> ≥ 12px", hint: "💡 <code>gap: 16px;</code> απόσταση μεταξύ flex items" },
     ],
     solution: `.products {
   display: flex;
@@ -195,19 +179,13 @@ const LEVELS = [
       "Αφαίρεσε τις <b>κουκκίδες</b> και τα προεπιλεγμένα <b>περιθώρια</b> της λίστας",
       "<code>.nav-link</code>: κάνε τα links <b>λευκά</b>, <b>χωρίς υπογράμμιση</b>",
     ],
-    hints: [
-      "💡 <code>list-style: none;</code> αφαιρεί κουκκίδες",
-      "💡 <code>padding: 0; margin: 0;</code> καθαρίζει defaults",
-      "💡 <code>text-decoration: none;</code> αφαιρεί υπογράμμιση",
-      "💡 <code>display: flex; gap: 24px;</code>",
-    ],
     checks: [
-      { selector: ".nav-list", property: "display", test: (v) => v === "flex" || v === "inline-flex", msg: "flex" },
-      { selector: ".nav-list", property: "list-style-type", test: (v) => v === "none", msg: "<code>list-style: none</code>" },
-      { selector: ".nav-list", property: "padding-left", test: (v) => px(v) < 5, msg: "<code>padding: 0</code>" },
-      { selector: ".nav-list", property: "gap", test: atLeast(16), msg: "gap ≥ 16px" },
-      { selector: ".nav-link", property: "color", test: isLightText, msg: "Λευκά links" },
-      { selector: ".nav-link", property: "text-decoration-line", test: (v) => v === "none" || !v, msg: "<code>text-decoration: none</code>" },
+      { selector: ".nav-list", property: "display", test: (v) => v === "flex" || v === "inline-flex", msg: "flex", hint: "💡 <code>display: flex;</code> βάζει τα στοιχεία σε οριζόντια σειρά" },
+      { selector: ".nav-list", property: "list-style-type", test: (v) => v === "none", msg: "<code>list-style: none</code>", hint: "💡 <code>list-style: none;</code> αφαιρεί κουκκίδες" },
+      { selector: ".nav-list", property: "padding-left", test: (v) => px(v) < 5, msg: "<code>padding: 0</code>", hint: "💡 <code>padding: 0; margin: 0;</code> καθαρίζει defaults της λίστας" },
+      { selector: ".nav-list", property: "gap", test: atLeast(16), msg: "gap ≥ 16px", hint: "💡 <code>gap: 24px;</code> κενό ανάμεσα στα στοιχεία" },
+      { selector: ".nav-link", property: "color", test: isLightText, msg: "Λευκά links", hint: "💡 <code>color: white;</code> για λευκά links" },
+      { selector: ".nav-link", property: "text-decoration-line", test: (v) => v === "none" || !v, msg: "<code>text-decoration: none</code>", hint: "💡 <code>text-decoration: none;</code> αφαιρεί υπογράμμιση" },
     ],
     solution: `.nav-list {
   display: flex;
@@ -255,15 +233,10 @@ const LEVELS = [
       "Όρισε <b>3 ίσες στήλες</b>",
       "Άφησε <b>κενό ανάμεσα στα προϊόντα</b>",
     ],
-    hints: [
-      "💡 <code>display: grid;</code>",
-      "💡 <code>grid-template-columns: 1fr 1fr 1fr;</code>",
-      "💡 Ή πιο σύντομα: <code>repeat(3, 1fr)</code>",
-    ],
     checks: [
-      { selector: ".grid", property: "display", test: (v) => v === "grid" || v === "inline-grid", msg: "<code>display: grid</code>" },
-      { selector: ".grid", property: "grid-template-columns", test: (v) => v && v.split(" ").length === 3, msg: "Ακριβώς 3 στήλες" },
-      { selector: ".grid", property: "gap", test: atLeast(16), msg: "gap ≥ 16px" },
+      { selector: ".grid", property: "display", test: (v) => v === "grid" || v === "inline-grid", msg: "<code>display: grid</code>", hint: "💡 <code>display: grid;</code>" },
+      { selector: ".grid", property: "grid-template-columns", test: (v) => v && v.split(" ").length === 3, msg: "Ακριβώς 3 στήλες", hint: "💡 <code>grid-template-columns: repeat(3, 1fr);</code> (ή <code>1fr 1fr 1fr</code>)" },
+      { selector: ".grid", property: "gap", test: atLeast(16), msg: "gap ≥ 16px", hint: "💡 <code>gap: 20px;</code> κενό ανάμεσα στα προϊόντα" },
     ],
     solution: `.grid {
   display: grid;
@@ -308,16 +281,11 @@ const LEVELS = [
       "<code>.product-card</code>: κάν' την ώστε το badge να <b>τοποθετείται μέσα της</b> (όχι σε σχέση με όλη τη σελίδα)",
       "<code>.badge</code>: <b>κόλλησέ το στην πάνω-δεξιά γωνία</b> της κάρτας",
     ],
-    hints: [
-      "💡 <code>position: absolute</code> τοποθετείται σε σχέση με τον πιο κοντινό γονιό που ΔΕΝ είναι <code>static</code>",
-      "💡 Γι' αυτό: <code>position: relative</code> στο <code>.product-card</code>",
-      "💡 Μετά: <code>top: 10px; right: 10px;</code>",
-    ],
     checks: [
-      { selector: ".product-card", property: "position", test: (v) => v === "relative" || v === "absolute" || v === "fixed", msg: "<code>position: relative</code>" },
-      { selector: ".badge", property: "position", test: (v) => v === "absolute", msg: "<code>position: absolute</code>" },
-      { selector: ".badge", property: "top", test: (v) => v !== "auto" && px(v) >= 0 && px(v) <= 40, msg: "Όρισε <code>top</code>" },
-      { selector: ".badge", property: "right", test: (v) => v !== "auto" && px(v) >= 0 && px(v) <= 40, msg: "Όρισε <code>right</code>" },
+      { selector: ".product-card", property: "position", test: (v) => v === "relative" || v === "absolute" || v === "fixed", msg: "<code>position: relative</code>", hint: "💡 <code>position: relative;</code> στο <code>.product-card</code>, ώστε το badge να τοποθετείται μέσα της" },
+      { selector: ".badge", property: "position", test: (v) => v === "absolute", msg: "<code>position: absolute</code>", hint: "💡 <code>position: absolute;</code> τοποθετείται σε σχέση με τον πιο κοντινό γονιό που ΔΕΝ είναι <code>static</code>" },
+      { selector: ".badge", property: "top", test: (v) => v !== "auto" && px(v) >= 0 && px(v) <= 40, msg: "Όρισε <code>top</code>", hint: "💡 <code>top: 10px;</code> απόσταση από την κορυφή της κάρτας" },
+      { selector: ".badge", property: "right", test: (v) => v !== "auto" && px(v) >= 0 && px(v) <= 40, msg: "Όρισε <code>right</code>", hint: "💡 <code>right: 10px;</code> κόλλα το στη δεξιά άκρη" },
     ],
     solution: `.product-card {
   position: relative;
@@ -388,25 +356,19 @@ const LEVELS = [
       "<code>.total</code>: <b>κεντραρισμένο</b>, με <b>μεγαλύτερα γράμματα</b>",
       "<code>.pay-btn</code>: κουμπί που <b>πιάνει όλο το πλάτος</b>, πράσινο, χωρίς border",
     ],
-    hints: [
-      "💡 <code>margin: 0 auto;</code> κεντράρει block element",
-      "💡 <code>flex-direction: column;</code> = κάθετα",
-      "💡 <code>justify-content: space-between;</code> = στις άκρες",
-      "💡 <code>width: 100%;</code> = πλήρες πλάτος",
-    ],
     checks: [
-      { selector: ".checkout", property: "background-color", test: isLightText, msg: "Λευκό φόντο" },
-      { selector: ".checkout", property: "border-top-left-radius", test: atLeast(8), msg: "border-radius" },
-      { selector: ".checkout", property: "padding-top", test: atLeast(16), msg: "Padding" },
-      { selector: ".checkout", property: "max-width", test: (v) => px(v) > 0 && px(v) <= 700, msg: "max-width ~500px" },
-      { selector: ".title", property: "text-align", test: (v) => v === "center", msg: "title κεντραρισμένο" },
-      { selector: ".row", property: "display", test: (v) => v === "flex" || v === "inline-flex", msg: "row → flex" },
-      { selector: ".row", property: "flex-direction", test: (v) => v === "column", msg: "row → column" },
-      { selector: ".item", property: "display", test: (v) => v === "flex" || v === "inline-flex", msg: "item → flex" },
-      { selector: ".item", property: "justify-content", test: (v) => v === "space-between", msg: "item → space-between" },
-      { selector: ".pay-btn", property: "background-color", test: isGreenish, msg: "Πράσινο κουμπί" },
-      { selector: ".pay-btn", property: "color", test: isLightText, msg: "Λευκό κείμενο" },
-      { selector: ".pay-btn", property: "width", test: (v) => px(v) > 300, msg: "width: 100%" },
+      { selector: ".checkout", property: "background-color", test: isLightText, msg: "Λευκό φόντο", hint: "💡 <code>background: white;</code> για λευκή κάρτα" },
+      { selector: ".checkout", property: "border-top-left-radius", test: atLeast(8), msg: "border-radius", hint: "💡 <code>border-radius: 12px;</code> στρογγυλεμένες γωνίες" },
+      { selector: ".checkout", property: "padding-top", test: atLeast(16), msg: "Padding", hint: "💡 <code>padding: 24px;</code> εσωτερικό κενό" },
+      { selector: ".checkout", property: "max-width", test: (v) => px(v) > 0 && px(v) <= 700, msg: "max-width ~500px", hint: "💡 <code>max-width: 500px;</code> + <code>margin: 0 auto;</code> για να μην είναι φαρδιά και να κεντράρει" },
+      { selector: ".title", property: "text-align", test: (v) => v === "center", msg: "title κεντραρισμένο", hint: "💡 <code>text-align: center;</code> στο <code>.title</code>, με σκούρο μπλε <code>color</code>" },
+      { selector: ".row", property: "display", test: (v) => v === "flex" || v === "inline-flex", msg: "row → flex", hint: "💡 <code>display: flex;</code> στο <code>.row</code>" },
+      { selector: ".row", property: "flex-direction", test: (v) => v === "column", msg: "row → column", hint: "💡 <code>flex-direction: column;</code> = κάθετη στοίβα" },
+      { selector: ".item", property: "display", test: (v) => v === "flex" || v === "inline-flex", msg: "item → flex", hint: "💡 <code>display: flex;</code> στο <code>.item</code>" },
+      { selector: ".item", property: "justify-content", test: (v) => v === "space-between", msg: "item → space-between", hint: "💡 <code>justify-content: space-between;</code> = όνομα αριστερά, τιμή δεξιά" },
+      { selector: ".pay-btn", property: "background-color", test: isGreenish, msg: "Πράσινο κουμπί", hint: "💡 <code>background: #10b981;</code> πράσινο κουμπί (και <code>border: none;</code>)" },
+      { selector: ".pay-btn", property: "color", test: isLightText, msg: "Λευκό κείμενο", hint: "💡 <code>color: white;</code> λευκό κείμενο στο κουμπί" },
+      { selector: ".pay-btn", property: "width", test: (v) => px(v) > 300, msg: "width: 100%", hint: "💡 <code>width: 100%;</code> για να πιάνει όλο το πλάτος" },
     ],
     solution: `.checkout {
   background: white;
