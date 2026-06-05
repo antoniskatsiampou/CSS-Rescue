@@ -87,12 +87,12 @@ body {
   }
 }
 
-/* Custom dot cursor everywhere */
+/* Custom dot cursor */
 a, button, input, select, [role="button"], .action-btn, .inv-item, .icon-btn, .brand, label, textarea {
   cursor: none;
 }
 
-/* Show text cursor on the CSS editor for typing */
+/* Εμφάνιση text cursor στον editor */
 .css-editor {
   cursor: text;
 }
@@ -243,8 +243,7 @@ body::after {
   margin: 0 0 8px 0;
   letter-spacing: 4px;
   font-weight: 400;
-  /* block-level flex ώστε ο τίτλος να είναι πάντα σε δική του γραμμή
-     (όχι δίπλα στο tag σε φαρδιές/κοντές οθόνες) */
+  /* block-level flex ώστε ο τίτλος να είναι πάντα σε δική του γραμμή */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -407,14 +406,12 @@ body::after {
 /* Λίστα κανόνων */
 .rules ul {
   margin: 0;
-  /* Στοίχιση των εικονιδίων κανόνων με το εικονίδιο του "Στόχος:"
-     (όσο το padding-left του .goal-box) */
+  /* Στοίχιση των εικονιδίων κανόνων με το εικονίδιο του "Στόχος:" */
   padding-left: 18px;
   list-style: none;
 }
 
-/* Κάθε κανόνας — το εικονίδιο σε absolute, το κείμενο ρέει κανονικά
-   (όχι flex, αλλιώς τα inline <b> γίνονται ξεχωριστά flex items) */
+/* Κάθε κανόνας και εικονίδιο σε absolute ώστε το κείμενο ρέει κανονικά*/
 .rules li {
   position: relative;
   padding: 6px 0 6px 28px;
@@ -600,7 +597,7 @@ body::after {
     padding-left: 14px;
   }
 
-  /* Στοίχιση με το εικονίδιο του "Στόχος:" (padding-left του goal-box) */
+  /* Στοίχιση με το εικονίδιο του "Στόχος:" */
   .rules ul {
     padding-left: 14px;
   }
@@ -690,7 +687,7 @@ body::after {
     margin-bottom: 8px;
   }
 
-  /* Στοίχιση με το εικονίδιο του "Στόχος:" (padding-left του goal-box) */
+  /* Στοίχιση με το εικονίδιο του "Στόχος:"  */
   .rules ul {
     padding-left: 12px;
   }
@@ -730,7 +727,7 @@ body::after {
   }
 }
 
-/* --- Κοντές οθόνες (laptop): συμπίεση intro ώστε να χωράει χωρίς scroll --- */
+/* --- Μικρές οθόνες desktop (laptop): συμπίεση intro ώστε να χωράει χωρίς scroll ---*/
 @media (max-height: 850px) {
   .intro {
     padding: 10px 16px;
@@ -797,7 +794,7 @@ body::after {
   }
 }
 
-/* --- Πολύ κοντές οθόνες (≤700px ύψος): ακόμα πιο συμπαγές --- */
+/* --- Πολύ μικρές οθόνες (≤700px ύψος) --- */
 @media (max-height: 700px) {
   .intro {
     padding: 6px 16px;
@@ -892,7 +889,7 @@ body::after {
   border-bottom: 1px solid var(--border);
 }
 
-/* Αριστερή ομάδα: logo + μπάρα Hacker */
+/* left bar logo + μπάρα Hacker */
 .topbar-left {
   display: flex;
   align-items: center;
@@ -985,7 +982,6 @@ body::after {
   50% { transform: scale(1.15); }
 }
 
-/* Stat labels */
 .stat-info {
   min-width: 0;
 }
@@ -1028,7 +1024,7 @@ body::after {
 }
 
 .stat-fill.hacker.warn {
-  background: #f97316; /* orange */
+  background: #f97316; 
 }
 
 .stat-fill.hacker.danger {
@@ -1069,7 +1065,7 @@ body::after {
   position: relative;
 }
 
-/* Completed levels */
+/* Ολοκληρωμένα levels */
 .level-dot.completed {
   background: var(--primary);
   border-color: var(--primary-hi);
@@ -1089,7 +1085,7 @@ body::after {
   50% { box-shadow: 0 0 14px rgba(6, 182, 212, .9), 0 0 28px rgba(6, 182, 212, .4); }
 }
 
-/* Sound toggle */
+/* toggle ήχου*/
 .topbar-right {
   display: flex;
   align-items: center;
@@ -1142,7 +1138,7 @@ body::after {
   background: rgba(6, 182, 212, .1);
 }
 
-/* ------------------------ INVENTORY BAR------------------------------- */
+/* ------------------------ INVENTORY BAR antivirus + βοήθειες ------------------------------- */
 
 .inventory-bar {
   display: flex;
@@ -1230,7 +1226,7 @@ body::after {
   overflow: hidden;
 }
 
-/* -------------------------- LEFT PANEL — Story + Instructions --------------------------------- */
+/* -------------------------- LEFT PANEL — Story + Οδηγίες  --------------------------------- */
 
 .left-panel {
   padding: 16px;
@@ -1341,7 +1337,7 @@ body::after {
   font-size: 10px;
   flex-shrink: 0;
 }
-/* instructions*/
+/* οδηγίες */
 .instructions-box code,
 .story-box code,
 .feedback code,
@@ -1355,7 +1351,7 @@ body::after {
   border: 1px solid rgba(6, 182, 212, .25);
 }
 
-/* Scoring rules (details) */
+/* Κανόνες σκορ*/
 .scoring-rules {
   margin-top: 14px;
   font-size: 12px;
@@ -1453,7 +1449,7 @@ body::after {
   align-items: center;
 }
 
-/* LIVE badge */
+/* LIVE σήμα */
 .live-badge {
   margin-left: auto;
   font-size: 10px;
@@ -1467,7 +1463,7 @@ body::after {
   50% { opacity: .4; }
 }
 
-/* Textarea editor */
+/* editor */
 .css-editor {
   flex: 1;
   width: 100%;
@@ -1488,7 +1484,7 @@ body::after {
   box-shadow: inset 0 0 0 1px rgba(6, 182, 212, .3);
 }
 
-/* Feedback (output) */
+/* Feedback  */
 .feedback {
   padding: 12px 14px;
   font-size: 13px;
@@ -1687,7 +1683,7 @@ body::after {
   color: var(--primary-hi);
 }
 
-/* Celebrate variant (level complete) */
+/* level complete */
 .dialog-body.celebrate {
   border-color: var(--primary);
   box-shadow: 0 0 60px rgba(16, 185, 129, .25);
@@ -1698,7 +1694,7 @@ body::after {
   text-shadow: var(--glow-primary);
 }
 
-/* Danger variant (game over) */
+/* game over */
 .dialog-body.danger {
   border-color: #ef4444;
   box-shadow: 0 0 60px rgba(239, 68, 68, .25);
@@ -1708,7 +1704,7 @@ body::after {
   color: #fca5a5;
 }
 
-/* Victory variant */
+/* Νίκη */
 .dialog-body.victory {
   border-color: #fbbf24;
   box-shadow: 0 0 80px rgba(251, 191, 36, .3);
@@ -1828,7 +1824,6 @@ body::after {
   color: var(--text);   
 }
 
-/* Μεγαλύτερα εικονίδια στους τίτλους dialogs */
 .dialog-body h2 .material-symbols-outlined {
   font-size: 30px;
 }
@@ -1851,8 +1846,7 @@ body::after {
   text-shadow: var(--glow-cyan);
 }
 
-/* Χρωματικά θέματα dialog — border + τίτλος ίδια με το αντίστοιχο κουμπί.
-   Τοποθετημένα μετά το .confirm ώστε να υπερισχύουν (ίδιο specificity). */
+/* Χρωματικά θέματα dialog — border + τίτλος ίδια με το αντίστοιχο κουμπί. */
 .dialog-body.theme-cyan {            /* Βοήθεια  */
   border-color: var(--cyan);
   box-shadow: 0 0 60px rgba(6, 182, 212, .2);

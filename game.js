@@ -82,7 +82,6 @@ const ui = {
   victoryBody:         $id("victory-body"),
   playAgainBtn:        $id("play-again-btn"),
 
-  // misc
   soundToggle: $id("sound-toggle"),
 };
 
@@ -128,7 +127,7 @@ function renderPreview(css) {
   if (!level) return;
   const doc = ui.preview.contentDocument;
   
-  // 1. Γράφουμε το HTML χωρίς το input του χρήστη (Safe)
+  // 1. HTML χωρίς το input του χρήστη 
   doc.open();
   doc.write(`<!DOCTYPE html><html><head><meta charset="utf-8">
 <style>${level.baseStyles || ""}</style>
@@ -182,7 +181,7 @@ function updateStats() {
   else cls += "danger";
   ui.hackerFill.className = cls;
 
-  // Mini avatar pulse when hacker is winning
+  // Mini avatar pulse όταν νικάει ο hacker
   const avatar = $(".hacker-stat .mini-avatar");
   if (avatar) {
     avatar.classList.toggle("winning", hp > 60);
@@ -192,7 +191,7 @@ function updateStats() {
   ui.scoreLabel.textContent = STATE.score.toString().padStart(5, "0");
   ui.comboLabel.textContent = "x" + (STATE.combo + 1);
 
-  // Inventory
+  // Antivirus / βοήθειες
   ui.hintCount.textContent = STATE.inventory.hint;
   ui.antivirusCount.textContent = STATE.inventory.antivirus;
   ui.antivirusBtn.disabled = STATE.inventory.antivirus <= 0 || STATE.hackerProgress <= 0;
@@ -243,19 +242,53 @@ function loadLevel(index) {
   ui.levelSubtitle.textContent = level.subtitle;
   ui.storyText.textContent = level.story;
 
-  // Instructions
+  // Οδηγίες - array σε λίστα
   ui.instructionsList.innerHTML = level.instructions
     .map((ins, i) => `<li><span class="instr-num">${i + 1}</span><span class="instr-text">${ins}</span></li>`)
     .join("");
 
-  // Editor — readonly hints + editable skeleton
+  // Editor - readonly βοήθειες
   ui.editorReadonly.textContent = level.readonlyHint || "";
   ui.editor.value = level.starterCSS;
   renderPreview(level.starterCSS);
+  placeCaretInBody(ui.editor);
 
   clearFeedback();
   updateStats();
   save();
+}
+
+/* Τοποθετεί τον caret ανάμεσα στις αγκύλες {  }, στην κενή γραμμή του σώματος,
+   ώστε ο παίκτης να μπορεί να γράψει αμέσως μόλις φορτώσει το επίπεδο. */
+function placeCaretInBody(el) {
+  const v = el.value;
+  const braceIdx = v.indexOf("{");
+  el.focus();
+
+  if (braceIdx === -1) {
+    el.selectionStart = el.selectionEnd = v.length;
+    return;
+  }
+
+  const nlIdx = v.indexOf("\n", braceIdx);
+  if (nlIdx === -1) {
+    el.selectionStart = el.selectionEnd = braceIdx + 1;
+    return;
+  }
+
+  // Παράκαμψη των κενών/tab της εσοχής στην κενή γραμμή του σώματος
+  let pos = nlIdx + 1;
+  let indent = 0;
+  while (pos < v.length && (v[pos] === " " || v[pos] === "\t")) { pos++; indent++; }
+
+  // Αν η κενή γραμμή του σώματος δεν έχει εσοχή, πρόσθεσε 2 κενά
+  // ώστε ο caret να εμφανίζεται εσοχημένος σε όλα τα επίπεδα (όπως στο Level 1)
+  if (indent === 0) {
+    el.value = v.slice(0, nlIdx + 1) + "  " + v.slice(nlIdx + 1);
+    pos = nlIdx + 1 + 2;
+  }
+
+  el.selectionStart = el.selectionEnd = pos;
 }
 
 function nextLevel() {
@@ -405,7 +438,7 @@ function onHint() {
   setTimeout(() => {
     const check = firstFailingCheck(level);
 
-    // Όλα δείχνουν σωστά → μη χρεώσεις βοήθεια, καθοδήγησε σε Έλεγχο
+    // Όλα σωστά χωρίς βοήθειες
     if (!check) {
       Sound.hint();
       showFeedback(`
@@ -477,6 +510,7 @@ async function onReset() {
   const level = LEVELS[STATE.currentLevel];
   ui.editor.value = level.starterCSS;
   renderPreview(level.starterCSS);
+  placeCaretInBody(ui.editor);
   clearFeedback();
 }
 
@@ -537,7 +571,7 @@ function gameOver() {
   ui.gameOverDialog.showModal();
 }
 
-/* Αστέρια: λάθη + βοήθειες ορίζουν την επίδοση, οι λύσεις βάζουν ταβάνι.
+/* Αστέρια: λάθη + βοήθειες ορίζουν την επίδοση
    3 αστέρια = καμία λύση & ≤3 (λάθη+βοήθειες). Κάθε "Δες λύση" κόβει αστέρι. */
 function computeStars() {
   const sols = STATE.totalSolutionsViewed || 0;
@@ -709,7 +743,7 @@ function init() {
   // Live preview on typing
   ui.editor.addEventListener("input", () => renderPreview(ui.editor.value));
 
-  // Enter → κράτα το ίδιο indentation με την τρέχουσα γραμμή (όχι παραπάνω)
+  // Στο enter, κράτα το ίδιο indentation με την τρέχουσα γραμμή 
   ui.editor.addEventListener("keydown", (e) => {
     if (e.key !== "Enter" || e.shiftKey || e.ctrlKey || e.altKey || e.metaKey) return;
     e.preventDefault();
@@ -733,7 +767,7 @@ function init() {
     }
   });
 
-  // Check for saved game - show continue button if save exists
+  // Check for saved game - εμφάνιση continue button αν υπάρχει πρόοδος
   const saved = loadSave();
   const continueBtn = $id("continue-btn");
   if (saved && !saved.finished) {
@@ -758,7 +792,7 @@ window.addEventListener("DOMContentLoaded", init);
   let lastTrail = 0;
   const TRAIL_INTERVAL = 30;
 
-  // Track which dialog is currently open (top layer)
+  // Κρατάει ποιο dialog είναι ανοιχτό (top layer)
   let activeDialog = null;
 
   function getTrailParent() {
@@ -785,16 +819,16 @@ window.addEventListener("DOMContentLoaded", init);
   document.addEventListener("mousedown", () => dot.classList.add("clicking"));
   document.addEventListener("mouseup", () => dot.classList.remove("clicking"));
 
-  // Hide dot when mouse leaves window
+  // Κρύψιμο dot όταν το cursor βγαίνει εκτός παραθύρου  
   document.addEventListener("mouseleave", () => dot.style.opacity = "0");
   document.addEventListener("mouseenter", () => dot.style.opacity = "1");
 
-  // Hide dot over the CSS editor (show only native text cursor there)
+  // Κρύψιμο dot πάνω από τον CSS editor (εμφάνιση μόνο του text cursor εκεί)
   const editor = $id("css-editor");
   editor.addEventListener("mouseenter", () => dot.style.opacity = "0");
   editor.addEventListener("mouseleave", () => dot.style.opacity = "1");
 
-  // Move cursor dot into/out of dialogs so it stays visible above the backdrop
+  // Μετακίνηση του dot στο active dialog όταν ανοίγει, και επιστροφή στο body όταν κλείνει
   const dialogs = document.querySelectorAll("dialog");
   const observer = new MutationObserver((mutations) => {
     for (const m of mutations) {
